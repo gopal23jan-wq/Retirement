@@ -458,9 +458,36 @@ canvas{border-radius:6px;}
       <p style="font-size:12px;color:var(--muted);margin-bottom:12px;">Portfolio survival under different market return assumptions over your retirement horizon.</p>
       <div id="mc-bars"></div>
       <div class="div"></div>
-      <p style="font-size:12px;color:var(--muted);margin-bottom:10px;">Apply a what-if scenario to see its impact on your runway:</p>
-      <div class="sc-grid" id="sc-grid"></div>
-      <div id="sc-result" style="margin-top:12px;"></div>
+      <p style="font-size:12px;color:var(--muted);margin-bottom:10px;">Adjust the what-if scenarios below to see their impact on your runway:</p>
+
+      <!-- Market Crash panel -->
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:10px;">
+        <div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:12px;">📉 Market Crash</div>
+        <div class="row row-2" style="margin-bottom:8px;">
+          <div class="field">
+            <label>Crash Size</label>
+            <input type="range" id="sc-crash-pct" min="10" max="60" value="30" oninput="document.getElementById('sc-crash-pct-val').textContent=this.value+'%';runCrashScenario()"/>
+            <div class="range-val" id="sc-crash-pct-val">30%</div>
+          </div>
+          <div class="field">
+            <label>Occurs in Year</label>
+            <input type="range" id="sc-crash-yr" min="1" max="15" value="1" oninput="document.getElementById('sc-crash-yr-val').textContent='Year '+this.value;runCrashScenario()"/>
+            <div class="range-val" id="sc-crash-yr-val">Year 1</div>
+          </div>
+        </div>
+        <div id="sc-crash-result"></div>
+      </div>
+
+      <!-- High Inflation panel -->
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px;">
+        <div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:12px;">🔥 High Inflation</div>
+        <div class="field" style="margin-bottom:8px;">
+          <label>Sustained Inflation Rate</label>
+          <input type="range" id="sc-inf-rate" min="3" max="10" step="0.5" value="5" oninput="document.getElementById('sc-inf-rate-val').textContent=this.value+'%';runInflationScenario()"/>
+          <div class="range-val" id="sc-inf-rate-val">5%</div>
+        </div>
+        <div id="sc-inf-result"></div>
+      </div>
     </div>
   </div>
 </div>
@@ -532,7 +559,7 @@ canvas{border-radius:6px;}
 
 <script>
 // Version
-document.getElementById('ver').textContent='Version 3.0 · '+new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
+document.getElementById('ver').textContent='Version 4.0 · '+new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
 
 // Section toggle
 function tog(id){
@@ -786,6 +813,9 @@ function calc(){
   // Alerts
   renderAlerts(clawback,oasMo,portfolio,myAnnual,spAnnual,runoutAge,lifeExp,age,estEstate,safeDraw);
 
+  // Spending phase insights
+  renderSpendInsights(safeDraw,age,lifeExp);
+
   // Dependent child summary
   const depSumEl=document.getElementById('dep-summary');
   if(depSumEl&&hasDep){
@@ -1014,51 +1044,94 @@ function renderMC(){
   });
   document.getElementById('mc-bars').innerHTML=html;
 
-  // Scenario buttons
-  const scs=[
-    {title:'📉 Market Crash (−30%)',desc:'Portfolio drops 30% in year 1'},
-    {title:'🔥 High Inflation (5%)',desc:'Inflation runs at 5% for full retirement'},
-    {title:'🎂 Long Life (Age 95)',desc:'You live to 95 — does money last?'},
-    {title:'✂️ Cut Go-Go Spending 20%',desc:'Reduce early retirement spending'},
-  ];
-  document.getElementById('sc-grid').innerHTML=scs.map((s,i)=>`
-    <button class="sc-btn" onclick="applyScenario(${i})" id="sc-${i}">
-      <div class="sc-title">${s.title}</div>
-      <div class="sc-desc">${s.desc}</div>
-    </button>`).join('');
+  // Auto-run the configurable scenarios once MC tab is shown
+  runCrashScenario();
+  runInflationScenario();
 }
 
-function applyScenario(idx){
-  document.querySelectorAll('.sc-btn').forEach(b=>b.classList.remove('active'));
-  document.getElementById('sc-'+idx).classList.add('active');
+function _scenarioBase(){
+  return {
+    port: v('rrsp')+v('tfsa')+v('nreg'),
+    lifeExp: v('life'),
+    age: v('age'),
+    inf: v('inf')/100,
+    ret: v('ret')/100,
+    annualDraw: Math.max(0, v('sp-go')-(v('cpp')+v('oas')+v('pen'))*12),
+    years: v('life')-v('age'),
+  };
+}
 
-  const port=v('rrsp')+v('tfsa')+v('nreg');
-  const lifeExp=idx===2?95:v('life');
-  const age=v('age');
-  const inf=idx===1?0.05:v('inf')/100;
-  const ret=v('ret')/100;
-  const annualSpend=idx===3?v('sp-go')*0.8:v('sp-go');
-  const guarInc=(v('cpp')+v('oas')+v('pen'))*12;
-  const annualDraw=Math.max(0,annualSpend-guarInc);
-
-  let p=idx===0?port*0.7:port; // 30% crash year 1
-  let depletedAt=null;
-  const years=lifeExp-age;
+function runCrashScenario(){
+  const el=document.getElementById('sc-crash-result');
+  if(!el)return;
+  const crashPct=parseInt(document.getElementById('sc-crash-pct')?.value||30)/100;
+  const crashYr=parseInt(document.getElementById('sc-crash-yr')?.value||1);
+  const {port,lifeExp,age,inf,ret,annualDraw,years}=_scenarioBase();
+  let p=port,dep=null;
   for(let y=0;y<years;y++){
-    const yr_ret=idx===0&&y===0?-0.30:ret;
+    const yr_ret=(y+1===crashYr)?-crashPct:ret;
     p=p*(1+yr_ret)-annualDraw*Math.pow(1+inf,y);
-    if(p<0&&!depletedAt){depletedAt=age+y;p=0;}
+    if(p<0&&!dep){dep=age+y;p=0;}
+  }
+  const pct=Math.round(crashPct*100);
+  const msg=dep
+    ?`A ${pct}% crash in Year ${crashYr} depletes your portfolio at age ${dep} — ${lifeExp-dep} years before your life expectancy.`
+    :`Even with a ${pct}% crash in Year ${crashYr}, your portfolio lasts to age ${lifeExp}. ✓`;
+  el.innerHTML=`<div class="alert ${dep?'danger':'good'}" style="font-size:12px;">🔍 ${msg}</div>`;
+}
+
+function runInflationScenario(){
+  const el=document.getElementById('sc-inf-result');
+  if(!el)return;
+  const infRate=parseFloat(document.getElementById('sc-inf-rate')?.value||5)/100;
+  const {port,lifeExp,age,ret,annualDraw,years}=_scenarioBase();
+  let p=port,dep=null;
+  for(let y=0;y<years;y++){
+    p=p*(1+ret)-annualDraw*Math.pow(1+infRate,y);
+    if(p<0&&!dep){dep=age+y;p=0;}
+  }
+  const pct=(infRate*100).toFixed(1);
+  const msg=dep
+    ?`At ${pct}% sustained inflation, your portfolio depletes at age ${dep} — ${lifeExp-dep} years before your life expectancy.`
+    :`At ${pct}% sustained inflation, your portfolio still lasts to age ${lifeExp}. ✓`;
+  el.innerHTML=`<div class="alert ${dep?'danger':'good'}" style="font-size:12px;">🔍 ${msg}</div>`;
+}
+
+// ── SPENDING PHASE INSIGHTS ──
+function renderSpendInsights(safeDraw,age,lifeExp){
+  const go=v('sp-go'),sl=v('sp-sl'),no=v('sp-no');
+  const el=document.getElementById('spend-alert');
+  if(!el)return;
+  if(!go&&!sl&&!no){el.innerHTML='';return;}
+
+  let html='';
+
+  // Go-Go headroom
+  if(go>0&&safeDraw>0){
+    const goYears=Math.max(1,Math.min(75,lifeExp)-age);
+    const headroom=safeDraw-go;
+    if(headroom>5000){
+      const total=Math.round(headroom*goYears/1000)*1000;
+      html+=`<div class="alert info" style="margin-top:8px;">💡 Your Go-Go spending of ${fmtFull(go)}/yr is ${fmtFull(headroom)}/yr below what you could safely spend. That's roughly ${fmt(total)} of enjoyment left on the table over ${goYears} Go-Go years. Any unspent money of course will add to the value of the estate.</div>`;
+    } else if(headroom<-5000){
+      html+=`<div class="alert warn" style="margin-top:8px;">⚠️ <strong>Go-Go overspend:</strong> Your ${fmtFull(go)}/yr exceeds the safe limit of ${fmtFull(safeDraw)}/yr by ${fmtFull(Math.abs(headroom))}. This will draw down your portfolio faster than projected.</div>`;
+    }
   }
 
-  const msgs=[
-    `After a 30% market crash in year 1, your portfolio ${depletedAt?'runs out at age '+depletedAt:'still lasts to age '+lifeExp}.`,
-    `With 5% sustained inflation, your portfolio ${depletedAt?'runs out at age '+depletedAt:'still lasts to age '+lifeExp}.`,
-    `Planning to age 95: your portfolio ${depletedAt?'runs out at age '+depletedAt:'lasts the full distance to age 95'}.`,
-    `Cutting Go-Go spending by 20%: your portfolio ${depletedAt?'runs out at age '+depletedAt:'lasts to age '+lifeExp+' with extra cushion'}.`,
-  ];
+  // Phase step-down check
+  if(go>0&&sl>0&&sl>go*0.95){
+    html+=`<div class="alert warn" style="margin-top:8px;">⚠️ <strong>Slow-Go spending</strong> (${fmtFull(sl)}/yr) is close to or above your Go-Go spending. Most retirees spend 15–25% less in Slow-Go years as activity naturally reduces. Consider whether this reflects your plan.</div>`;
+  }
+  if(sl>0&&no>0&&no>sl*0.95){
+    html+=`<div class="alert warn" style="margin-top:8px;">⚠️ <strong>No-Go spending</strong> (${fmtFull(no)}/yr) is close to or above your Slow-Go spending. This is unusual unless long-term care costs are significant — those are better captured in the LTC field below.</div>`;
+  }
 
-  const col=depletedAt?'var(--danger)':'var(--accent)';
-  document.getElementById('sc-result').innerHTML=`<div class="alert" style="background:rgba(56,139,253,0.1);border:1px solid rgba(56,139,253,0.25);color:var(--blue);font-size:13px;">🔍 ${msgs[idx]}</div>`;
+  // Positive confirmation when phases step down sensibly
+  if(go>0&&sl>0&&no>0&&sl<go&&no<sl){
+    html+=`<div class="alert good" style="margin-top:8px;">✅ Your spending phases step down sensibly: ${fmtFull(go)} → ${fmtFull(sl)} → ${fmtFull(no)}/yr. This three-phase model gives a more accurate projection than a flat spending assumption.</div>`;
+  }
+
+  el.innerHTML=html;
 }
 
 // ── REAL ESTATE APPRECIATION INFO ──
@@ -1196,7 +1269,7 @@ function printReport(){
   </style>
   </head><body>
   <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px;">
-    <div><h1>🍁 Canadian Retirement Plan${userName?' — '+userName:''}</h1><div class="sub">Generated ${now} · Version 3.0 · Province: ${prov}</div></div>
+    <div><h1>🍁 Canadian Retirement Plan${userName?' — '+userName:''}</h1><div class="sub">Generated ${now} · Version 4.0 · Province: ${prov}</div></div>
     <button class="no-print" onclick="window.print()" style="background:#1a5fa8;color:#fff;border:none;border-radius:6px;padding:8px 18px;font-size:13px;cursor:pointer;">🖨 Save as PDF</button>
   </div>
 
