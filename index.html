@@ -385,6 +385,7 @@ canvas{border-radius:6px;}
       <button class="tab" onclick="swTab('t-proj',this)">Projection</button>
       <button class="tab" onclick="swTab('t-cpp',this)">CPP Deferral</button>
       <button class="tab" onclick="swTab('t-mc',this)">Scenarios</button>
+      <button class="tab" onclick="swTab('t-mcs',this)">Monte Carlo</button>
     </div>
     <div id="t-income">
       <table class="data-table"><thead><tr><th>Source</th><th>Monthly</th><th>Annual</th></tr></thead><tbody id="inc-tbody"></tbody></table>
@@ -440,6 +441,45 @@ canvas{border-radius:6px;}
         <div id="sc-inf-result"></div>
       </div>
     </div>
+
+    <!-- MONTE CARLO TAB -->
+    <div id="t-mcs" style="display:none;">
+      <p style="font-size:12px;color:var(--muted);margin-bottom:14px;">Runs simulations with randomised annual returns drawn from a normal distribution around your expected return. Shows the probability your portfolio survives to your life expectancy, plus a fan chart of outcomes.</p>
+
+      <!-- Probability display -->
+      <div id="mc-prob-display" style="text-align:center;padding:16px 0 20px;"></div>
+
+      <!-- Controls -->
+      <div class="row row-2" style="margin-bottom:12px;">
+        <div class="field">
+          <label>Return Volatility (Std Dev) <span class="tip" title="How much returns vary year-to-year. Conservative (bonds): 8%. Balanced: 12%. Growth: 18%.">?</span></label>
+          <input type="range" id="mc-vol" min="5" max="25" step="1" value="12" oninput="document.getElementById('mc-vol-val').textContent=this.value+'%';runMonteCarlo()"/>
+          <div class="range-val" id="mc-vol-val">12%</div>
+          <div class="hint">Bonds ~8% · Balanced ~12% · Growth ~18%</div>
+        </div>
+        <div class="field">
+          <label>Number of Simulations</label>
+          <select id="mc-runs" onchange="runMonteCarlo()" style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:9px 12px;color:var(--text);font-size:14px;font-family:'DM Sans',sans-serif;outline:none;width:100%;">
+            <option value="500">500 (fast)</option>
+            <option value="1000" selected>1,000 (recommended)</option>
+            <option value="5000">5,000 (precise, slower)</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Fan chart -->
+      <div class="chart-wrap"><canvas id="mc-chart" height="180"></canvas></div>
+      <div class="chart-legend" style="margin-bottom:14px;">
+        <span><span class="legend-dot" style="background:rgba(56,139,253,0.25);height:8px;border-radius:2px;display:inline-block;width:10px;margin-right:4px;vertical-align:middle;"></span>P10–P90 range</span>
+        <span><span class="legend-dot" style="background:rgba(56,139,253,0.5);height:6px;border-radius:2px;display:inline-block;width:10px;margin-right:4px;vertical-align:middle;"></span>P25–P75 range</span>
+        <span><span class="legend-dot" style="background:var(--blue);"></span>Median (P50)</span>
+        <span><span class="legend-dot" style="background:var(--accent);opacity:0.7;"></span>Deterministic</span>
+      </div>
+
+      <!-- Percentile table -->
+      <div id="mc-percentile-table"></div>
+    </div>
+
   </div>
 </div>
 
@@ -473,7 +513,7 @@ canvas{border-radius:6px;}
       <p style="color:var(--text);font-weight:600;margin-bottom:6px;">Reading the Results Bar</p>
       <p style="margin-bottom:14px;">The sticky bar at the top shows three numbers at all times: <strong style="color:var(--text)">Money Lasts Until</strong> (age your portfolio reaches zero, or Age X+ if it lasts your full horizon), <strong style="color:var(--text)">Max Safe Go-Go Spend</strong> (maximum sustainable annual spending in active years), and <strong style="color:var(--text)">Est. Estate at Life Exp.</strong> (projected portfolio + home + other assets at life expectancy).</p>
       <p style="color:var(--text);font-weight:600;margin-bottom:6px;">The Detailed Analysis Tabs</p>
-      <p style="margin-bottom:14px;"><strong style="color:var(--text)">Income</strong> — full breakdown with estimated provincial tax. <strong style="color:var(--text)">Projection</strong> — portfolio value chart over time with phase shading and milestones. <strong style="color:var(--text)">CPP Deferral</strong> — lifetime CPP totals at every start age with break-even points. <strong style="color:var(--text)">Scenarios</strong> — survival under four return assumptions, plus adjustable Market Crash and High Inflation stress tests.</p>
+      <p style="margin-bottom:14px;"><strong style="color:var(--text)">Income</strong> — full breakdown with estimated provincial tax. <strong style="color:var(--text)">Projection</strong> — portfolio value chart over time with phase shading and milestones. <strong style="color:var(--text)">CPP Deferral</strong> — lifetime CPP totals at every start age with break-even points. <strong style="color:var(--text)">Scenarios</strong> — survival under four return assumptions, plus adjustable Market Crash and High Inflation stress tests. <strong style="color:var(--text)">Monte Carlo</strong> — runs up to 5,000 simulations with randomised annual returns (Box-Muller normal distribution) to produce a probability-of-success score and fan chart. Adjust the Volatility slider to match your portfolio risk level: ~8% for bonds, ~12% for balanced, ~18% for growth.</p>
       <p style="color:var(--text);font-weight:600;margin-bottom:6px;">Exporting Your Report</p>
       <p style="margin-bottom:14px;">Click <strong style="color:var(--text)">📄 Export Report (PDF)</strong> at the top to open a print-ready summary in a new tab. Click the blue "Save as PDF" button — on Mac choose "Save as PDF" from the print dialog; on iPhone use the share sheet to "Save to Files".</p>
       <p style="color:var(--text);font-weight:600;margin-bottom:6px;">Important Note</p>
@@ -485,7 +525,7 @@ canvas{border-radius:6px;}
 </div><!-- end .app -->
 
 <script>
-document.getElementById('ver').textContent='Version 4.0 · '+new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
+document.getElementById('ver').textContent='Version 5.0 · '+new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
 
 function tog(id){
   const b=document.getElementById('b-'+id);
@@ -496,7 +536,7 @@ function tog(id){
 }
 
 function swTab(id,el){
-  ['t-income','t-proj','t-cpp','t-mc'].forEach(t=>{
+  ['t-income','t-proj','t-cpp','t-mc','t-mcs'].forEach(t=>{
     const el2=document.getElementById(t);
     if(el2)el2.style.display='none';
   });
@@ -506,6 +546,7 @@ function swTab(id,el){
   if(id==='t-proj')drawChart();
   if(id==='t-cpp')renderCPP();
   if(id==='t-mc')renderMC();
+  if(id==='t-mcs')runMonteCarlo();
 }
 
 function togSpouse(){
@@ -996,10 +1037,15 @@ function printReport(){
   });
   scHTML+='</table>';
   const depSection=hasDep?`<div style="background:#fff8e1;border:1px solid #ffe082;border-radius:8px;padding:14px;margin-bottom:16px;"><div style="font-size:14px;font-weight:700;margin-bottom:8px;color:#795548;">🧑‍🦽 Dependent Adult Child — ${depName}</div><table style="width:100%;border-collapse:collapse;font-size:12px;"><tr><td style="padding:3px 6px;color:#555;">Annual Support Provided</td><td style="padding:3px 6px;text-align:right;font-weight:600;">${fmtFull(depSupport)}/yr</td></tr>${depRdsp>0?`<tr><td style="padding:3px 6px;color:#555;">RDSP Annual Contribution</td><td style="padding:3px 6px;text-align:right;font-weight:600;">${fmtFull(depRdsp)}/yr</td></tr>`:''} ${depOdsp>0?`<tr><td style="padding:3px 6px;color:#555;">ODSP / Gov't Benefit (child receives)</td><td style="padding:3px 6px;text-align:right;color:#2a7a3b;">${fmtFull(depOdsp)}/mo · ${fmtFull(depOdsp*12)}/yr</td></tr>`:''}<tr style="border-top:1px solid #ddd;"><td style="padding:5px 6px;font-weight:700;">Total Annual Cost to Your Retirement</td><td style="padding:5px 6px;text-align:right;font-weight:700;color:#c0392b;">${fmtFull(depSupport+depRdsp)}/yr</td></tr></table></div>`:'';
+  // Grab Monte Carlo probability if available
+  const mcProbEl=document.getElementById('mc-prob-display');
+  const mcProbText=mcProbEl&&mcProbEl.querySelector('div')?mcProbEl.querySelector('div').textContent:'—';
+  const mcPct=mcProbEl?mcProbEl.innerHTML:'';
   const now=new Date().toLocaleDateString('en-CA',{year:'numeric',month:'long',day:'numeric'});
   const html=`<!DOCTYPE html><html><head><meta charset="UTF-8"/><title>Retirement Plan — ${now}</title><style>*{box-sizing:border-box;margin:0;padding:0;}body{font-family:'Segoe UI',Arial,sans-serif;font-size:13px;color:#1a1a1a;background:#fff;padding:24px 30px 40px;}h1{font-size:22px;font-weight:700;color:#1a1a2e;margin-bottom:2px;}h2{font-size:14px;font-weight:700;color:#1a1a2e;margin:16px 0 8px;border-bottom:1px solid #e0e0e0;padding-bottom:4px;}.sub{font-size:11px;color:#888;margin-bottom:16px;}.results-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px;}.result-box{background:#f4f6fa;border-radius:8px;padding:12px;text-align:center;}.result-val{font-size:22px;font-weight:700;}.result-val.green{color:#2a7a3b;}.result-val.blue{color:#1a5fa8;}.result-val.gold{color:#b8860b;}.input-grid{display:grid;grid-template-columns:1fr 1fr;gap:4px 24px;margin-bottom:8px;}.input-row{display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid #f0f0f0;font-size:12px;}.input-row span:first-child{color:#555;}.input-row span:last-child{font-weight:600;}table{width:100%;border-collapse:collapse;font-size:12px;margin-bottom:8px;}th{text-align:left;padding:5px 8px;font-size:10px;color:#888;text-transform:uppercase;border-bottom:1px solid #ddd;}td{padding:5px 8px;border-bottom:1px solid #f0f0f0;}td.pos{color:#2a7a3b;}td.neg{color:#c0392b;}td.tot{font-weight:700;}.chart-img{width:100%;border-radius:6px;margin:8px 0;}.disc{font-size:10px;color:#aaa;margin-top:20px;border-top:1px solid #eee;padding-top:10px;line-height:1.6;}.phase-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px;}.phase-box{background:#f9f9f9;border-radius:6px;padding:10px;text-align:center;}.phase-label{font-size:10px;font-weight:700;text-transform:uppercase;margin-bottom:2px;}.phase-val{font-size:15px;font-weight:700;}@media print{body{padding:0 16px;}.no-print{display:none;}}</style></head><body>
-  <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px;"><div><h1>🍁 Canadian Retirement Plan${userName?' — '+userName:''}</h1><div class="sub">Generated ${now} · Version 4.0 · Province: ${prov}</div></div><button class="no-print" onclick="window.print()" style="background:#1a5fa8;color:#fff;border:none;border-radius:6px;padding:8px 18px;font-size:13px;cursor:pointer;">🖨 Save as PDF</button></div>
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px;"><div><h1>🍁 Canadian Retirement Plan${userName?' — '+userName:''}</h1><div class="sub">Generated ${now} · Version 5.0 · Province: ${prov}</div></div><button class="no-print" onclick="window.print()" style="background:#1a5fa8;color:#fff;border:none;border-radius:6px;padding:8px 18px;font-size:13px;cursor:pointer;">🖨 Save as PDF</button></div>
   <h2>Key Results</h2><div class="results-row"><div class="result-box"><div class="result-val ${document.getElementById('r-runway').className.includes('red')?'red':'green'}">${runway}</div><div style="font-size:10px;color:#888;margin-top:3px;">Money lasts until</div></div><div class="result-box"><div class="result-val blue">${safeDraw}</div><div style="font-size:10px;color:#888;margin-top:3px;">Max safe Go-Go spend</div></div><div class="result-box"><div class="result-val gold">${estate}</div><div style="font-size:10px;color:#888;margin-top:3px;">Est. estate at life exp.</div></div></div>
+  ${mcPct?`<h2>Monte Carlo Probability of Success</h2><div style="text-align:center;padding:14px;background:#f4f6fa;border-radius:8px;margin-bottom:16px;">${mcPct.replace(/var\(--accent\)/g,'#2a7a3b').replace(/var\(--accent2\)/g,'#d4700a').replace(/var\(--danger\)/g,'#c0392b').replace(/var\(--muted\)/g,'#888').replace(/var\(--text\)/g,'#1a1a2e')}</div>`:''}
   <h2>Your Profile</h2><div class="input-grid"><div class="input-row"><span>Current Age</span><span>${age}</span></div><div class="input-row"><span>Life Expectancy</span><span>Age ${lifeExp}</span></div><div class="input-row"><span>Inflation Rate</span><span>${inf}%</span></div><div class="input-row"><span>Investment Return</span><span>${ret}%</span></div><div class="input-row"><span>Est. Estate at Life Exp.</span><span>${estate}</span></div><div class="input-row"><span>Province</span><span>${prov}</span></div></div>
   <h2>Guaranteed Income</h2><table><thead><tr><th>Source</th><th>Monthly</th><th>Annual</th></tr></thead><tbody>${incTable}</tbody></table>
   <h2>Investments &amp; Savings</h2><div class="input-grid"><div class="input-row"><span>RRSP / RRIF</span><span>${fmtFull(rrsp)}</span></div><div class="input-row"><span>TFSA</span><span>${fmtFull(tfsa)}</span></div><div class="input-row"><span>Non-Registered</span><span>${fmtFull(nreg)}</span></div><div class="input-row"><span>Total Portfolio</span><span style="font-weight:700;">${fmtFull(portfolio)}</span></div>${homeVal>0?`<div class="input-row"><span>Home Value</span><span>${fmtFull(homeVal)} (${homeAppr}%/yr)</span></div>`:''} ${other>0?`<div class="input-row"><span>Other Assets</span><span>${fmtFull(other)}</span></div>`:''}</div>
@@ -1024,6 +1070,174 @@ function showREInfo(){
   if(reInfoLoaded)return;
   popup.innerHTML=`<strong style="color:var(--text);font-size:12px;">🏠 Canadian Real Estate Historical Appreciation (approx. 10-yr avg. to 2024)</strong><table style="width:100%;border-collapse:collapse;margin-top:10px;font-size:11px;"><tr style="border-bottom:1px solid var(--border);"><th style="text-align:left;padding:5px 6px;color:var(--muted);">Market</th><th style="text-align:right;padding:5px 6px;color:var(--muted);">Avg. Annual Appreciation</th></tr><tr style="border-bottom:1px solid rgba(255,255,255,0.04);"><td style="padding:5px 6px;">Toronto (GTA)</td><td style="padding:5px 6px;text-align:right;color:var(--accent);">~7–8%</td></tr><tr style="border-bottom:1px solid rgba(255,255,255,0.04);"><td style="padding:5px 6px;">Vancouver</td><td style="padding:5px 6px;text-align:right;color:var(--accent);">~6–8%</td></tr><tr style="border-bottom:1px solid rgba(255,255,255,0.04);"><td style="padding:5px 6px;">Ottawa</td><td style="padding:5px 6px;text-align:right;color:var(--accent);">~5–6%</td></tr><tr style="border-bottom:1px solid rgba(255,255,255,0.04);"><td style="padding:5px 6px;">Calgary</td><td style="padding:5px 6px;text-align:right;color:var(--accent);">~3–5%</td></tr><tr style="border-bottom:1px solid rgba(255,255,255,0.04);"><td style="padding:5px 6px;">Montreal</td><td style="padding:5px 6px;text-align:right;color:var(--accent);">~4–5%</td></tr><tr style="border-bottom:1px solid rgba(255,255,255,0.04);"><td style="padding:5px 6px;">National average</td><td style="padding:5px 6px;text-align:right;color:var(--accent);">~4–5%</td></tr><tr><td style="padding:5px 6px;">Conservative planning rate</td><td style="padding:5px 6px;text-align:right;color:var(--accent);">~3%</td></tr></table><div style="margin-top:10px;font-size:11px;color:var(--muted);line-height:1.5;">💡 <strong style="color:var(--text);">For planning</strong>, most advisors suggest <strong style="color:var(--text);">3–4%</strong> as a conservative long-term assumption.</div>`;
   reInfoLoaded=true;
+}
+
+// ── MONTE CARLO ──
+function normalRandom(mean,stdDev){
+  let u1=0,u2=0;
+  while(u1===0)u1=Math.random();
+  while(u2===0)u2=Math.random();
+  const z=Math.sqrt(-2*Math.log(u1))*Math.cos(2*Math.PI*u2);
+  return mean+z*stdDev;
+}
+
+function runMonteCarlo(){
+  const probEl=document.getElementById('mc-prob-display');
+  const tableEl=document.getElementById('mc-percentile-table');
+  if(!probEl)return;
+
+  const N=parseInt(document.getElementById('mc-runs')?.value||1000);
+  const vol=parseFloat(document.getElementById('mc-vol')?.value||12)/100;
+  const age=v('age');
+  const lifeExp=v('life');
+  const inf=v('inf')/100;
+  const ret=v('ret')/100;
+  const hasDep=document.getElementById('has-dep').checked;
+  const hasSpouse=document.getElementById('has-sp').checked;
+  const rrspInit=v('rrsp'),tfsaInit=v('tfsa'),nregInit=v('nreg');
+  const portfolio=rrspInit+tfsaInit+nregInit;
+  const years=lifeExp-age;
+  if(years<=0||portfolio<=0){
+    probEl.innerHTML='<div style="color:var(--muted);font-size:13px;">Enter your age, life expectancy, and portfolio values to run the simulation.</div>';
+    return;
+  }
+
+  const depAnnualCost=hasDep?(v('dep-support')+v('dep-rdsp')):0;
+  const cppAge=parseInt(document.getElementById('cpp-age').value);
+  const oasAge=parseInt(document.getElementById('oas-age').value);
+  const cppMo=adjCPP(v('cpp'),cppAge);
+  const oasMo=adjOAS(v('oas'),oasAge);
+  const penMo=v('pen');
+  const spCPP=hasSpouse?v('sp-cpp'):0;
+  const spOAS=hasSpouse?v('sp-oas'):0;
+  const spPen=hasSpouse?v('sp-pen'):0;
+  const spLife=hasSpouse?v('sp-life'):0;
+  const clawback=calcClawback((cppMo+oasMo+penMo+spCPP+spOAS+spPen)*12,oasMo*12);
+  const rrspFraction=portfolio>0?rrspInit/portfolio:0;
+
+  let successes=0;
+  const yearlyVals=Array.from({length:years+1},()=>[]);
+
+  for(let sim=0;sim<N;sim++){
+    let port=portfolio;
+    let rrsp=rrspInit;
+    yearlyVals[0].push(port);
+    for(let yr=0;yr<years;yr++){
+      const curAge=age+yr;
+      const simRet=Math.max(-0.60,Math.min(0.80,normalRandom(ret,vol)));
+      const myInc=(curAge>=cppAge?cppMo:0)*12+(curAge>=oasAge?oasMo:0)*12+penMo*12-clawback;
+      const spInc=hasSpouse&&curAge<=spLife?(spCPP+spOAS+spPen)*12:0;
+      const totalInc=myInc+spInc;
+      const spend=phaseSpend(curAge,age,inf);
+      const depCost=hasDep?depAnnualCost*Math.pow(1+inf,yr):0;
+      const gap=Math.max(0,spend+depCost-totalInc);
+      const rrifMin=rrsp>0?rrsp*rrifRate(curAge):0;
+      const draw=Math.max(gap,rrifMin);
+      port=Math.max(0,port*(1+simRet)-draw);
+      const rrifDraw=Math.min(Math.max(gap*(rrsp/(port+draw+0.01)),rrifMin),rrsp);
+      rrsp=Math.max(0,rrsp*(1+simRet)-rrifDraw);
+      yearlyVals[yr+1].push(port);
+    }
+    if(port>0)successes++;
+  }
+
+  // Sort each year for percentile lookups
+  yearlyVals.forEach(arr=>arr.sort((a,b)=>a-b));
+  function pct(arr,p){
+    if(!arr.length)return 0;
+    const idx=Math.floor((p/100)*(arr.length-1));
+    return arr[Math.max(0,Math.min(arr.length-1,idx))];
+  }
+
+  const probability=(successes/N)*100;
+  const color=probability>=85?'var(--accent)':probability>=65?'var(--accent2)':'var(--danger)';
+  const grade=probability>=90?'Excellent':probability>=80?'Good':probability>=65?'Fair':'At Risk';
+  probEl.innerHTML=`
+    <div style="font-family:'Cormorant Garamond',serif;font-size:72px;font-weight:700;color:${color};line-height:1;letter-spacing:-2px;">${probability.toFixed(1)}%</div>
+    <div style="font-size:13px;color:var(--muted);margin-top:6px;">Probability of Success</div>
+    <div style="font-size:13px;color:${color};margin-top:5px;font-weight:600;">${grade} — ${successes.toLocaleString()} of ${N.toLocaleString()} simulations</div>
+    <div style="font-size:12px;color:var(--muted);margin-top:3px;">portfolio survives to age ${lifeExp}</div>`;
+
+  drawMCChart(yearlyVals,age,lifeExp,pct);
+
+  const keyAges=[75,85,lifeExp].filter(a=>a>age&&a<=lifeExp);
+  let tbl=`<table class="data-table"><thead><tr><th>Age</th><th style="color:var(--danger);">P10 · Pessimistic</th><th style="color:var(--blue);">P50 · Median</th><th style="color:var(--accent);">P90 · Optimistic</th></tr></thead><tbody>`;
+  keyAges.forEach(a=>{
+    const idx=Math.min(a-age,years);
+    const arr=yearlyVals[idx]||[];
+    const p10v=pct(arr,10),p50v=pct(arr,50),p90v=pct(arr,90);
+    tbl+=`<tr>
+      <td><strong>Age ${a}</strong></td>
+      <td class="${p10v<=0?'neg':''}">${fmt(p10v)}</td>
+      <td class="pos">${fmt(p50v)}</td>
+      <td class="pos">${fmt(p90v)}</td>
+    </tr>`;
+  });
+  tbl+=`</tbody></table>
+    <div style="font-size:11px;color:var(--muted);margin-top:8px;line-height:1.6;">
+      Returns randomised each year: mean <strong style="color:var(--text);">${(ret*100).toFixed(1)}%</strong>,
+      std dev <strong style="color:var(--text);">${(vol*100).toFixed(0)}%</strong>.
+      P10 = only 10% of scenarios did worse. P90 = only 10% did better.
+    </div>`;
+  if(tableEl)tableEl.innerHTML=tbl;
+}
+
+function drawMCChart(yearlyVals,age,lifeExp,pct){
+  const canvas=document.getElementById('mc-chart');
+  if(!canvas)return;
+  const W=canvas.offsetWidth||720;const H=180;
+  canvas.width=W;canvas.height=H;
+  const ctx=canvas.getContext('2d');
+  ctx.clearRect(0,0,W,H);
+  const years=lifeExp-age;
+  const ages=Array.from({length:years+1},(_,i)=>age+i);
+  const p10=yearlyVals.map(a=>pct(a,10));
+  const p25=yearlyVals.map(a=>pct(a,25));
+  const p50=yearlyVals.map(a=>pct(a,50));
+  const p75=yearlyVals.map(a=>pct(a,75));
+  const p90=yearlyVals.map(a=>pct(a,90));
+  const maxV=Math.max(...p90,1);
+  function px(a){return((a-age)/(years||1))*(W-20)+10;}
+  function py(val){return H-14-((Math.max(0,val)/maxV)*(H-24));}
+
+  // Phase shading
+  [[age,Math.min(75,lifeExp),'rgba(76,175,80,0.05)'],[75,Math.min(85,lifeExp),'rgba(240,136,62,0.05)'],[85,lifeExp,'rgba(248,81,73,0.05)']].forEach(([s,e,c])=>{
+    if(e>s){ctx.fillStyle=c;ctx.fillRect(px(s),0,px(e)-px(s),H-14);}
+  });
+
+  // P10–P90 band
+  ctx.beginPath();
+  ages.forEach((a,i)=>{i===0?ctx.moveTo(px(a),py(p90[i])):ctx.lineTo(px(a),py(p90[i]));});
+  [...ages].reverse().forEach((a,i)=>{ctx.lineTo(px(a),py(p10[ages.length-1-i]));});
+  ctx.closePath();ctx.fillStyle='rgba(56,139,253,0.08)';ctx.fill();
+
+  // P25–P75 band
+  ctx.beginPath();
+  ages.forEach((a,i)=>{i===0?ctx.moveTo(px(a),py(p75[i])):ctx.lineTo(px(a),py(p75[i]));});
+  [...ages].reverse().forEach((a,i)=>{ctx.lineTo(px(a),py(p25[ages.length-1-i]));});
+  ctx.closePath();ctx.fillStyle='rgba(56,139,253,0.15)';ctx.fill();
+
+  // P50 median line
+  ctx.beginPath();ctx.strokeStyle='rgba(56,139,253,0.9)';ctx.lineWidth=2;
+  ages.forEach((a,i)=>{i===0?ctx.moveTo(px(a),py(p50[i])):ctx.lineTo(px(a),py(p50[i]));});
+  ctx.stroke();
+
+  // Deterministic line from projData
+  if(projData.length){
+    ctx.beginPath();ctx.strokeStyle='rgba(46,160,67,0.7)';ctx.lineWidth=1.5;ctx.setLineDash([4,4]);
+    projData.filter(d=>d.age<=lifeExp).forEach((d,i)=>{i===0?ctx.moveTo(px(d.age),py(d.port)):ctx.lineTo(px(d.age),py(d.port));});
+    ctx.stroke();ctx.setLineDash([]);
+  }
+
+  // Axis labels
+  ctx.fillStyle='rgba(125,133,144,0.7)';ctx.font='10px DM Sans';ctx.textAlign='center';
+  [age,75,85,lifeExp].filter(a=>a>=age&&a<=lifeExp).forEach(a=>{ctx.fillText(a,px(a),H-2);});
+  ctx.textAlign='left';ctx.fillStyle='rgba(125,133,144,0.5)';
+  [0.25,0.5,0.75,1].forEach(f=>{
+    const yv=maxV*f;
+    ctx.fillText(fmt(yv,0),4,py(yv)+4);
+    ctx.strokeStyle='rgba(255,255,255,0.04)';ctx.beginPath();ctx.moveTo(0,py(yv));ctx.lineTo(W,py(yv));ctx.stroke();
+  });
 }
 
 // ── INIT ──
