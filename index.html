@@ -15,14 +15,10 @@
 html,body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:15px;}
 h1,h2,h3{font-family:'Cormorant Garamond',serif;}
 .app{max-width:800px;margin:0 auto;padding:0 16px 100px;}
-
-/* Hero */
 .hero{padding:36px 0 20px;text-align:center;}
 .hero h1{font-size:clamp(26px,5vw,40px);font-weight:600;letter-spacing:-0.5px;}
 .hero p{font-size:13px;color:var(--muted);margin-top:6px;}
 .version{font-size:11px;color:var(--muted);opacity:0.45;margin-top:4px;}
-
-/* Sections */
 .sec{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:14px;}
 .sec-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:0;cursor:pointer;user-select:none;}
 .sec-title{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;display:flex;align-items:center;gap:8px;}
@@ -30,8 +26,6 @@ h1,h2,h3{font-family:'Cormorant Garamond',serif;}
 .sec-tog.open{transform:rotate(180deg);}
 .sec-body{margin-top:16px;display:none;}
 .sec-body.open{display:block;}
-
-/* Fields */
 .row{display:grid;gap:12px;margin-bottom:12px;}
 .row-2{grid-template-columns:1fr 1fr;}
 .row-3{grid-template-columns:1fr 1fr 1fr;}
@@ -44,8 +38,6 @@ h1,h2,h3{font-family:'Cormorant Garamond',serif;}
 .field .hint{font-size:11px;color:var(--muted);margin-top:2px;}
 .range-val{font-size:13px;color:var(--accent);font-weight:600;text-align:right;margin-top:2px;}
 .tip{display:inline-block;width:14px;height:14px;background:var(--card);border:1px solid var(--border);border-radius:50%;font-size:9px;text-align:center;line-height:13px;color:var(--muted);cursor:default;vertical-align:middle;margin-left:3px;}
-
-/* Results sticky bar */
 .results-bar{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:18px 20px;margin-bottom:14px;position:sticky;top:8px;z-index:20;backdrop-filter:blur(10px);}
 .res-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px;}
 .res-item{text-align:center;}
@@ -56,21 +48,15 @@ h1,h2,h3{font-family:'Cormorant Garamond',serif;}
 .res-val.blue{color:var(--blue);}
 .res-val.gold{color:var(--gold);}
 .res-label{font-size:11px;color:var(--muted);margin-top:4px;}
-
-/* Runway */
 .runway-labels{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-bottom:5px;}
 .runway-bar{height:8px;background:var(--card);border-radius:4px;overflow:hidden;}
 .runway-fill{height:100%;border-radius:4px;transition:width 0.5s ease,background 0.5s ease;}
-
-/* Alerts */
 .alert-zone{margin-top:10px;display:flex;flex-direction:column;gap:6px;}
 .alert{border-radius:8px;padding:10px 13px;font-size:12px;display:flex;gap:8px;align-items:flex-start;line-height:1.5;}
 .alert.warn{background:rgba(240,136,62,0.1);border:1px solid rgba(240,136,62,0.25);color:#f0a060;}
 .alert.good{background:rgba(46,160,67,0.1);border:1px solid rgba(46,160,67,0.25);color:#4caf70;}
 .alert.info{background:rgba(56,139,253,0.1);border:1px solid rgba(56,139,253,0.25);color:#60a0ff;}
 .alert.danger{background:rgba(248,81,73,0.1);border:1px solid rgba(248,81,73,0.25);color:#f87070;}
-
-/* Spending phases */
 .phases{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:12px;}
 .phase{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px;}
 .phase-lbl{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:3px;}
@@ -78,13 +64,9 @@ h1,h2,h3{font-family:'Cormorant Garamond',serif;}
 .phase-yrs{font-size:11px;color:var(--muted);margin-bottom:10px;}
 .phase input{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:7px 10px;color:var(--text);font-size:14px;font-family:'DM Sans',sans-serif;width:100%;outline:none;}
 .phase input:focus{border-color:var(--blue);}
-
-/* Tabs */
 .tabs{display:flex;gap:3px;background:var(--card);border-radius:9px;padding:3px;margin-bottom:14px;}
 .tab{flex:1;padding:7px 4px;border:none;background:none;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:12px;border-radius:7px;cursor:pointer;transition:all 0.15s;}
 .tab.active{background:var(--surface);color:var(--text);font-weight:500;}
-
-/* Tables */
 .data-table{width:100%;border-collapse:collapse;}
 .data-table th{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;padding:6px 8px;text-align:left;border-bottom:1px solid var(--border);}
 .data-table td{font-size:13px;padding:7px 8px;border-bottom:1px solid rgba(255,255,255,0.04);}
@@ -92,14 +74,10 @@ h1,h2,h3{font-family:'Cormorant Garamond',serif;}
 .data-table .neg{color:var(--danger);}
 .data-table .tot td{font-weight:600;border-top:1px solid var(--border);padding-top:10px;}
 .data-table tr.best td{color:var(--accent);font-weight:600;}
-
-/* Chart */
 .chart-wrap{margin:8px 0 4px;}
 canvas{border-radius:6px;}
 .chart-legend{display:flex;gap:14px;font-size:11px;color:var(--muted);margin-top:6px;}
 .legend-dot{width:10px;height:3px;border-radius:2px;display:inline-block;margin-right:4px;vertical-align:middle;}
-
-/* Toggle */
 .toggle-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;}
 .toggle{position:relative;width:44px;height:24px;flex-shrink:0;}
 .toggle input{opacity:0;width:0;height:0;}
@@ -107,31 +85,17 @@ canvas{border-radius:6px;}
 .tog-sl:before{content:'';position:absolute;width:18px;height:18px;left:2px;top:2px;background:var(--muted);border-radius:50%;transition:0.2s;}
 .toggle input:checked+.tog-sl{background:var(--accent);border-color:var(--accent);}
 .toggle input:checked+.tog-sl:before{transform:translateX(20px);background:#fff;}
-
-/* MC bars */
 .mc-row{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
 .mc-lbl{font-size:12px;color:var(--muted);width:100px;flex-shrink:0;text-align:right;}
 .mc-bar-bg{flex:1;height:8px;background:var(--card);border-radius:4px;overflow:hidden;}
 .mc-bar-fill{height:100%;border-radius:4px;transition:width 0.4s;}
 .mc-pct{font-size:12px;width:40px;text-align:right;flex-shrink:0;font-weight:600;}
-
-/* Scenario buttons */
-.sc-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px;}
-.sc-btn{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px;cursor:pointer;text-align:left;transition:border-color 0.15s;}
-.sc-btn:hover{border-color:var(--blue);}
-.sc-btn.active{border-color:var(--accent);}
-.sc-title{font-size:13px;font-weight:600;color:var(--text);margin-bottom:3px;}
-.sc-desc{font-size:11px;color:var(--muted);}
-
-/* Divider */
 .div{height:1px;background:var(--border);margin:14px 0;}
-
 @media(max-width:500px){
   .row-3{grid-template-columns:1fr 1fr;}
   .row-2{grid-template-columns:1fr;}
   .phases{grid-template-columns:1fr;}
   .res-grid{grid-template-columns:1fr 1fr;}
-  .sc-grid{grid-template-columns:1fr;}
 }
 </style>
 </head>
@@ -205,16 +169,11 @@ canvas{border-radius:6px;}
         <div class="range-val" id="iv">2.5%</div>
       </div>
     </div>
-    <div class="row row-2">
+    <div class="row row-1">
       <div class="field">
         <label>Investment Return <span class="tip" title="Conservative: 4%, Balanced: 5-6%, Growth: 7%">?</span></label>
         <input type="range" id="ret" min="2" max="8" step="0.5" value="5" oninput="document.getElementById('rv').textContent=this.value+'%';calc()"/>
         <div class="range-val" id="rv">5%</div>
-      </div>
-      <div class="field">
-        <label>Other Assets</label>
-        <input type="text" inputmode="numeric" id="other-profile" placeholder="0" oninput="calc()"/>
-        <div class="hint">Vehicles, collectibles, business interests, etc.</div>
       </div>
     </div>
   </div>
@@ -393,18 +352,18 @@ canvas{border-radius:6px;}
           <input type="text" id="dep-name" placeholder="e.g. Alex" oninput="calc()"/>
         </div>
         <div class="field">
-          <label>Annual Support You Provide <span class="tip" title="The total amount you contribute to your dependent child each year. This is deducted from your retirement income.">?</span></label>
+          <label>Annual Support You Provide <span class="tip" title="The total amount you contribute to your dependent child each year.">?</span></label>
           <input type="text" inputmode="numeric" id="dep-support" value="12,000" oninput="calc()"/>
         </div>
       </div>
       <div class="row row-2">
         <div class="field">
-          <label>ODSP / Disability Benefit (monthly) <span class="tip" title="Ontario Disability Support Program or similar provincial benefit your child receives. For reference — adjust your Annual Support figure to reflect any offset.">?</span></label>
+          <label>ODSP / Disability Benefit (monthly) <span class="tip" title="For reference — adjust your Annual Support figure to reflect any offset.">?</span></label>
           <input type="text" inputmode="numeric" id="dep-odsp" placeholder="0" oninput="calc()"/>
           <div class="hint">ON ODSP max 2024: ~$1,228/mo</div>
         </div>
         <div class="field">
-          <label>RDSP Annual Contribution <span class="tip" title="Registered Disability Savings Plan contributions you make each year. Counted as part of your annual cost.">?</span></label>
+          <label>RDSP Annual Contribution <span class="tip" title="Registered Disability Savings Plan contributions you make each year.">?</span></label>
           <input type="text" inputmode="numeric" id="dep-rdsp" placeholder="0" oninput="calc()"/>
           <div class="hint">RDSP lifetime limit: $200,000</div>
         </div>
@@ -427,15 +386,11 @@ canvas{border-radius:6px;}
       <button class="tab" onclick="swTab('t-cpp',this)">CPP Deferral</button>
       <button class="tab" onclick="swTab('t-mc',this)">Scenarios</button>
     </div>
-
-    <!-- Income tab -->
     <div id="t-income">
       <table class="data-table"><thead><tr><th>Source</th><th>Monthly</th><th>Annual</th></tr></thead><tbody id="inc-tbody"></tbody></table>
       <div class="div"></div>
       <div id="tax-note" style="font-size:11px;color:var(--muted);line-height:1.6;"></div>
     </div>
-
-    <!-- Projection tab -->
     <div id="t-proj" style="display:none;">
       <p style="font-size:12px;color:var(--muted);margin-bottom:10px;">Green = portfolio value. Red dashed = annual spending. Shading shows Go-Go / Slow-Go / No-Go phases.</p>
       <div class="chart-wrap"><canvas id="chart" height="180"></canvas></div>
@@ -446,14 +401,10 @@ canvas{border-radius:6px;}
       <div class="div"></div>
       <div id="proj-milestones"></div>
     </div>
-
-    <!-- CPP deferral tab -->
     <div id="t-cpp" style="display:none;">
       <p style="font-size:12px;color:var(--muted);margin-bottom:12px;">Comparing total lifetime CPP income at different start ages, using your entered monthly amount as the age-65 baseline. ⭐ = highest total by your life expectancy.</p>
       <table class="data-table"><thead><tr><th>Start Age</th><th>Monthly</th><th>Break-even vs 65</th><th>Total by Age 85</th><th>Total to Life Exp.</th></tr></thead><tbody id="cpp-tbody"></tbody></table>
     </div>
-
-    <!-- Scenarios / MC tab -->
     <div id="t-mc" style="display:none;">
       <p style="font-size:12px;color:var(--muted);margin-bottom:12px;">Portfolio survival under different market return assumptions over your retirement horizon.</p>
       <div id="mc-bars"></div>
@@ -500,57 +451,33 @@ canvas{border-radius:6px;}
   </div>
   <div class="sec-body" id="b-help">
     <div style="font-size:13px;color:var(--muted);line-height:1.8;">
-
       <p style="color:var(--text);font-weight:600;margin-bottom:6px;">What This Tool Does</p>
       <p style="margin-bottom:14px;">This calculator projects how long your retirement savings will last based on your income, investments, and spending — specific to Canada. It updates in real time as you change any value. No login, no data stored anywhere.</p>
-
       <p style="color:var(--text);font-weight:600;margin-bottom:6px;">Step-by-Step Guide</p>
-
       <p style="margin-bottom:4px;"><strong style="color:var(--accent);">1 · Your Profile</strong></p>
       <p style="margin-bottom:10px;">Enter your name (used in the PDF report), age, province, and life expectancy. Life expectancy is a planning horizon — use 90–95 to be conservative. The inflation and investment return sliders have sensible defaults (2.5% / 5%), but adjust them to match your own portfolio mix.</p>
-
       <p style="margin-bottom:4px;"><strong style="color:var(--accent);">2 · Guaranteed Income</strong></p>
-      <p style="margin-bottom:10px;">Enter your <strong style="color:var(--text)">monthly</strong> CPP, OAS, and any workplace pension. Use the CPP Start Age and OAS Start Age dropdowns to see how deferring affects your income. The calculator applies the correct government adjustment factors automatically. An OAS clawback warning appears if your income exceeds the 2024 threshold (~$91K).</p>
-
+      <p style="margin-bottom:10px;">Enter your <strong style="color:var(--text)">monthly</strong> CPP, OAS, and any workplace pension. Use the CPP and OAS Start Age dropdowns to see how deferring affects your income — the correct government adjustment factors are applied automatically. An OAS clawback warning appears if your income exceeds the 2024 threshold (~$91K).</p>
       <p style="margin-bottom:4px;"><strong style="color:var(--accent);">3 · Investments &amp; Savings</strong></p>
       <p style="margin-bottom:10px;">Enter your current balances for RRSP/RRIF, TFSA, and Non-Registered accounts. Add your home value if you plan to factor it into your estate — you can set an annual appreciation rate. A RRIF conversion reminder appears if you are under 71 with RRSP funds.</p>
-
       <p style="margin-bottom:4px;"><strong style="color:var(--accent);">4 · Retirement Spending (3 Phases)</strong></p>
-      <p style="margin-bottom:10px;">Unlike flat-spending models, this calculator uses three phases that reflect how spending actually changes in retirement:<br>
+      <p style="margin-bottom:10px;">This calculator uses three phases reflecting how spending actually changes in retirement:<br>
       &nbsp;&nbsp;<strong style="color:#4caf50;">Go-Go (65–75)</strong> — active years, highest spending (travel, hobbies, dining)<br>
       &nbsp;&nbsp;<strong style="color:var(--accent2);">Slow-Go (75–85)</strong> — more home-based, moderate spending<br>
-      &nbsp;&nbsp;<strong style="color:var(--danger);">No-Go (85+)</strong> — lowest lifestyle spending, but add Long-Term Care if applicable<br>
-      Enter your expected <strong style="color:var(--text)">annual</strong> spend for each phase. Leave blank if unsure — start with your current annual expenses as a guide.</p>
-
+      &nbsp;&nbsp;<strong style="color:var(--danger);">No-Go (85+)</strong> — lowest lifestyle spending; add Long-Term Care if applicable<br>
+      Enter your expected <strong style="color:var(--text)">annual</strong> spend for each phase. An insight note will appear showing how much Go-Go headroom you have and what it means for your estate.</p>
       <p style="margin-bottom:4px;"><strong style="color:var(--accent);">5 · Spouse / Partner</strong></p>
-      <p style="margin-bottom:10px;">Toggle on to include your spouse's CPP, OAS, and pension. Their income is added to the household pool. You can also enable Pension Income Splitting (up to 50%) to reduce your combined tax burden.</p>
-
+      <p style="margin-bottom:10px;">Toggle on to include your spouse's CPP, OAS, and pension in the household income pool. You can also enable Pension Income Splitting (up to 50%) to reduce your combined tax.</p>
       <p style="margin-bottom:4px;"><strong style="color:var(--accent);">6 · Dependent Adult Child</strong></p>
-      <p style="margin-bottom:10px;">Toggle on if you provide ongoing financial support to an adult child. Enter the annual amount you contribute and any RDSP contributions you make. ODSP/disability benefits your child receives are shown for reference — they do not automatically reduce your cost (adjust your Annual Support figure to reflect any offset). The total cost is inflation-adjusted and flows through your retirement projection.</p>
-
+      <p style="margin-bottom:10px;">Toggle on if you provide ongoing financial support to an adult child. Enter the annual amount you contribute and any RDSP contributions. ODSP/disability benefits are shown for reference — adjust your Annual Support figure to reflect any offset. The total cost is inflation-adjusted throughout your retirement.</p>
       <p style="color:var(--text);font-weight:600;margin-bottom:6px;">Reading the Results Bar</p>
-      <p style="margin-bottom:4px;">The sticky bar at the top shows three key numbers at all times:</p>
-      <ul style="list-style:none;padding-left:8px;margin-bottom:14px;">
-        <li style="margin-bottom:4px;">🟢 <strong style="color:var(--text)">Money Lasts Until</strong> — the age at which your portfolio runs to zero, or "Age [X]+" if it lasts your full life expectancy</li>
-        <li style="margin-bottom:4px;">🔵 <strong style="color:var(--text)">Max Safe Go-Go Spend</strong> — the maximum annual spending in your active years that keeps your portfolio sustainable (based on guaranteed income + 3.5% of portfolio)</li>
-        <li style="margin-bottom:4px;">🟡 <strong style="color:var(--text)">Est. Estate at Life Exp.</strong> — the projected value of what you leave behind (portfolio + projected home value + other assets)</li>
-      </ul>
-
+      <p style="margin-bottom:14px;">The sticky bar at the top shows three numbers at all times: <strong style="color:var(--text)">Money Lasts Until</strong> (age your portfolio reaches zero, or Age X+ if it lasts your full horizon), <strong style="color:var(--text)">Max Safe Go-Go Spend</strong> (maximum sustainable annual spending in active years), and <strong style="color:var(--text)">Est. Estate at Life Exp.</strong> (projected portfolio + home + other assets at life expectancy).</p>
       <p style="color:var(--text);font-weight:600;margin-bottom:6px;">The Detailed Analysis Tabs</p>
-      <ul style="list-style:none;padding-left:8px;margin-bottom:14px;">
-        <li style="margin-bottom:4px;"><strong style="color:var(--text)">Income</strong> — your full income breakdown with estimated tax by province</li>
-        <li style="margin-bottom:4px;"><strong style="color:var(--text)">Projection</strong> — a chart of your portfolio value over time, with phase shading and milestone values at ages 75, 85, and life expectancy</li>
-        <li style="margin-bottom:4px;"><strong style="color:var(--text)">CPP Deferral</strong> — a table comparing total lifetime CPP at every start age, with break-even points</li>
-        <li style="margin-bottom:4px;"><strong style="color:var(--text)">Scenarios</strong> — survival under Bear (2%), Caution (4%), Balanced (6%), and Growth (8%) returns, plus four stress-test buttons (market crash, high inflation, long life, spending cut)</li>
-      </ul>
-
+      <p style="margin-bottom:14px;"><strong style="color:var(--text)">Income</strong> — full breakdown with estimated provincial tax. <strong style="color:var(--text)">Projection</strong> — portfolio value chart over time with phase shading and milestones. <strong style="color:var(--text)">CPP Deferral</strong> — lifetime CPP totals at every start age with break-even points. <strong style="color:var(--text)">Scenarios</strong> — survival under four return assumptions, plus adjustable Market Crash and High Inflation stress tests.</p>
       <p style="color:var(--text);font-weight:600;margin-bottom:6px;">Exporting Your Report</p>
-      <p style="margin-bottom:14px;">Click <strong style="color:var(--text)">📄 Export Report (PDF)</strong> at the top to open a print-ready summary in a new tab. Click the blue "Save as PDF" button on that page — on Mac, choose "Save as PDF" from the print dialog; on iPhone, use the share sheet to "Save to Files".</p>
-
-      <p style="color:var(--text);font-weight:600;margin-bottom:6px;">Important Notes</p>
-      <p style="margin-bottom:4px;">⚠️ This calculator is for <strong style="color:var(--text)">personal planning and educational purposes only</strong>. It does not constitute financial, tax, or legal advice. Tax estimates are simplified and do not capture all credits, surtaxes, or personal circumstances.</p>
-      <p>Always consult a licensed financial planner or tax advisor before making major retirement decisions.</p>
-
+      <p style="margin-bottom:14px;">Click <strong style="color:var(--text)">📄 Export Report (PDF)</strong> at the top to open a print-ready summary in a new tab. Click the blue "Save as PDF" button — on Mac choose "Save as PDF" from the print dialog; on iPhone use the share sheet to "Save to Files".</p>
+      <p style="color:var(--text);font-weight:600;margin-bottom:6px;">Important Note</p>
+      <p>This calculator is for <strong style="color:var(--text)">personal planning and educational purposes only</strong>. It does not constitute financial, tax, or legal advice. Always consult a licensed financial planner or tax advisor before making major retirement decisions.</p>
     </div>
   </div>
 </div>
@@ -558,10 +485,8 @@ canvas{border-radius:6px;}
 </div><!-- end .app -->
 
 <script>
-// Version
 document.getElementById('ver').textContent='Version 4.0 · '+new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
 
-// Section toggle
 function tog(id){
   const b=document.getElementById('b-'+id);
   const t=document.getElementById('t-'+id);
@@ -570,7 +495,6 @@ function tog(id){
   t.classList.toggle('open',open);
 }
 
-// Tab switch
 function swTab(id,el){
   ['t-income','t-proj','t-cpp','t-mc'].forEach(t=>{
     const el2=document.getElementById(t);
@@ -584,28 +508,24 @@ function swTab(id,el){
   if(id==='t-mc')renderMC();
 }
 
-// Spouse toggle
 function togSpouse(){
   const on=document.getElementById('has-sp').checked;
   document.getElementById('sp-fields').style.display=on?'block':'none';
   calc();
 }
 
-// Dependent child toggle
 function togDep(){
   const on=document.getElementById('has-dep').checked;
   document.getElementById('dep-fields').style.display=on?'block':'none';
   calc();
 }
 
-// Helpers
 function v(id){
   const el=document.getElementById(id);
   if(!el)return 0;
   return parseFloat(el.value.replace(/,/g,''))||0;
 }
 
-// Comma formatter — attach to all currency text inputs
 function setupCommaInput(id){
   const el=document.getElementById(id);
   if(!el)return;
@@ -620,6 +540,7 @@ function setupCommaInput(id){
     try{this.setSelectionRange(pos+delta,pos+delta);}catch(e){}
   });
 }
+
 function fmt(n,dec=0){
   const abs=Math.abs(n);
   const s=abs>=1e6?'$'+(abs/1e6).toFixed(2)+'M':abs>=1e3?'$'+Math.round(abs/1e3).toLocaleString()+'K':'$'+abs.toFixed(dec);
@@ -627,20 +548,16 @@ function fmt(n,dec=0){
 }
 function fmtFull(n){return(n<0?'−$':'$')+Math.round(Math.abs(n)).toLocaleString();}
 
-// CPP adjustment
 function adjCPP(base,startAge){
   if(startAge===65)return base;
   if(startAge<65)return base*(1-0.006*(65-startAge)*12);
   return base*(1+0.007*(startAge-65)*12);
 }
-
-// OAS adjustment
 function adjOAS(base,startAge){
   if(startAge===65)return base;
   return base*(1+0.006*(startAge-65)*12);
 }
 
-// Simplified tax estimate
 function estTax(income,prov){
   const brackets={
     ON:[[0,0],[15705,0.2005],[53359,0.2415],[86698,0.2965],[100392,0.3148],[150000,0.3348],[220000,0.5153]],
@@ -657,31 +574,24 @@ function estTax(income,prov){
   const br=brackets[prov]||brackets.ON;
   let tax=0,rem=income;
   for(let i=br.length-1;i>0;i--){
-    if(rem>br[i][0]){
-      tax+=(rem-br[i][0])*(br[i][1]-br[i-1][1]);
-      rem=br[i][0];
-    }
+    if(rem>br[i][0]){tax+=(rem-br[i][0])*(br[i][1]-br[i-1][1]);rem=br[i][0];}
   }
-  // Credits: basic personal, age amount, pension income
   tax=Math.max(0,tax-3800);
   return Math.max(0,tax);
 }
 
-// OAS clawback
 const CLAWBACK_THRESH=90997;
 function calcClawback(totalIncome,oasAnnual){
   if(totalIncome<=CLAWBACK_THRESH)return 0;
   return Math.min(oasAnnual,(totalIncome-CLAWBACK_THRESH)*0.15);
 }
 
-// RRIF minimum rates
 function rrifRate(age){
   if(age<71)return 0;
   const r={71:0.0528,72:0.054,73:0.0553,74:0.0567,75:0.0582,76:0.0598,77:0.0617,78:0.0636,79:0.0658,80:0.0682,81:0.0708,82:0.0738,83:0.0771,84:0.0808,85:0.0848,86:0.0893,87:0.0942,88:0.0999,89:0.1064,90:0.1148,91:0.1233,92:0.1327,93:0.1432,94:0.154};
   return r[Math.min(age,94)]||0.20;
 }
 
-// Phase spending (inflation-adjusted)
 function phaseSpend(age,currentAge,inf){
   const go=v('sp-go'),sl=v('sp-sl'),no=v('sp-no'),ltc=v('ltc'),ltcAge=v('ltc-age');
   let base;
@@ -691,7 +601,6 @@ function phaseSpend(age,currentAge,inf){
   return base*Math.pow(1+inf,age-currentAge);
 }
 
-// ── MAIN CALCULATION ENGINE ──
 let projData=[];
 
 function calc(){
@@ -706,7 +615,6 @@ function calc(){
   const depRdsp=hasDep?v('dep-rdsp'):0;
   const depAnnualCost=depSupport+depRdsp;
 
-  // Income sources
   const cppAge=parseInt(document.getElementById('cpp-age').value);
   const oasAge=parseInt(document.getElementById('oas-age').value);
   const cppMo=adjCPP(v('cpp'),cppAge);
@@ -718,78 +626,53 @@ function calc(){
   const spAge=hasSpouse?v('sp-age'):0;
   const spLife=hasSpouse?v('sp-life'):0;
 
-  // Annual guaranteed income (base, age 65+)
   const myAnnual=(cppMo+oasMo+penMo)*12;
   const spAnnual=(spCPP+spOAS+spPen)*12;
-
-  // Clawback check
   const totalGuar=myAnnual+spAnnual;
   const clawback=calcClawback(totalGuar,oasMo*12);
 
-  // Portfolio
   let rrsp=v('rrsp'),tfsa=v('tfsa'),nreg=v('nreg');
   const portfolio=rrsp+tfsa+nreg;
   let port=portfolio;
 
-  // Projection loop
   projData=[];
   let runoutAge=null;
 
   for(let yr=age;yr<=Math.max(lifeExp+5,100);yr++){
-    // Income this year
     const myInc=(yr>=cppAge?cppMo:0)*12+(yr>=oasAge?oasMo:0)*12+penMo*12-clawback;
     const spInc=hasSpouse&&yr<=spLife?(spCPP+spOAS+spPen)*12:0;
     const totalInc=myInc+spInc;
-
-    // Spending (phase + dependent child cost, both inflation-adjusted)
     const spend=phaseSpend(yr,age,inf);
     const depCost=hasDep?depAnnualCost*Math.pow(1+inf,yr-age):0;
     const totalSpend=spend+depCost;
-
-    // Gap to fill from portfolio
     const gap=Math.max(0,totalSpend-totalInc);
-
-    // RRIF minimum
     const rrifMin=rrsp>0?rrsp*rrifRate(yr):0;
     const draw=Math.max(gap,rrifMin);
-
-    // Portfolio growth and drawdown
     const growth=port*ret;
     port=port+growth-draw;
-
     if(port<=0&&!runoutAge){runoutAge=yr;port=0;}
-
     projData.push({age:yr,port:Math.max(0,port),spend:totalSpend,income:totalInc,draw,rrsp:Math.max(0,rrsp)});
-
-    // Update RRSP balance separately for RRIF tracking
     const rrifDraw=Math.min(Math.max(gap*(rrsp/(port+draw+0.01)),rrifMin),rrsp);
     rrsp=Math.max(0,rrsp*(1+ret)-rrifDraw);
   }
 
-  // Key results
   const estateData=projData.find(d=>d.age===lifeExp);
-
-  // Project home value forward with appreciation
   const homeNow=v('home');
   const homeAppr=homeNow>0?v('home-appr')/100:0;
   const yearsToLifeExp=lifeExp-age;
   const projectedHome=homeNow>0?Math.round(homeNow*Math.pow(1+homeAppr,yearsToLifeExp)/1000)*1000:0;
 
-  // Show/hide appreciation slider
   const apprRow=document.getElementById('home-appr-row');
   if(apprRow)apprRow.style.display=homeNow>0?'block':'none';
   const homeNote=document.getElementById('home-proj-note');
   if(homeNote&&homeNow>0){
     homeNote.textContent=`Projected value at age ${lifeExp}: ${fmtFull(projectedHome)} (${v('home-appr')}%/yr over ${yearsToLifeExp} yrs)`;
-  } else if(homeNote){
-    homeNote.textContent='';
-  }
+  } else if(homeNote){homeNote.textContent='';}
 
   const estatePortfolio=runoutAge&&runoutAge<=lifeExp?0:(estateData?.port||0);
   const estEstate=estatePortfolio+projectedHome+v('other');
   const safeDraw=totalGuar+(portfolio>0?portfolio*0.035:0);
 
-  // Update display
   const runEl=document.getElementById('r-runway');
   if(runoutAge&&runoutAge<=lifeExp){
     runEl.textContent='Age '+runoutAge;runEl.className='res-val red';
@@ -799,7 +682,6 @@ function calc(){
   document.getElementById('r-safe').textContent=fmt(safeDraw,0);
   document.getElementById('r-estate').textContent=fmt(estEstate,0);
 
-  // Runway bar
   const totalYrs=lifeExp-age;
   const goodYrs=Math.min((runoutAge||lifeExp+1),lifeExp)-age;
   const pct=Math.max(2,Math.min(100,(goodYrs/Math.max(totalYrs,1))*100));
@@ -810,34 +692,25 @@ function calc(){
   document.getElementById('rl-end').textContent='Age '+lifeExp;
   document.getElementById('rl-mid').textContent=runoutAge&&runoutAge<=lifeExp?'⚠ Runs out age '+runoutAge:'';
 
-  // Alerts
   renderAlerts(clawback,oasMo,portfolio,myAnnual,spAnnual,runoutAge,lifeExp,age,estEstate,safeDraw);
-
-  // Spending phase insights
   renderSpendInsights(safeDraw,age,lifeExp);
 
-  // Dependent child summary
+  renderIncomeTable(cppMo,oasMo,penMo,spCPP,spOAS,spPen,clawback,prov,myAnnual+spAnnual);
+
+  document.getElementById('oas-warn').innerHTML=clawback>0
+    ?`<div class="alert warn" style="margin-top:8px;">⚠️ OAS Clawback: Your gross income exceeds $${CLAWBACK_THRESH.toLocaleString()}. Estimated annual OAS reduction: ${fmtFull(clawback)}.</div>`:'';
+
+  document.getElementById('rrif-warn').innerHTML=v('rrsp')>0&&age<71
+    ?`<div class="alert info" style="margin-top:8px;">📋 Your RRSP must convert to a RRIF by age 71. Mandatory minimum withdrawals begin — factor this into your tax plan.</div>`:'';
+
   const depSumEl=document.getElementById('dep-summary');
   if(depSumEl&&hasDep){
     const depName=document.getElementById('dep-name').value.trim()||'your child';
     const odspMo=v('dep-odsp');
-    const odspNote=odspMo>0?`<div class="alert info" style="margin-top:8px;">ℹ️ ${depName.charAt(0).toUpperCase()+depName.slice(1)} receives approx. ${fmtFull(odspMo)}/mo (${fmtFull(odspMo*12)}/yr) in government disability benefits. This does not directly reduce your cost above — adjust Annual Support if their benefits offset your contributions.</div>`:'';
+    const odspNote=odspMo>0?`<div class="alert info" style="margin-top:8px;">ℹ️ ${depName.charAt(0).toUpperCase()+depName.slice(1)} receives approx. ${fmtFull(odspMo)}/mo (${fmtFull(odspMo*12)}/yr) in government disability benefits. Adjust Annual Support if their benefits offset your contributions.</div>`:'';
     const rdspNote=depRdsp>0?`<div style="font-size:12px;color:var(--muted);margin-top:6px;">📋 RDSP contributions of ${fmtFull(depRdsp)}/yr included. Canada Disability Savings Grant may match up to $3,500/yr — consult your financial advisor.</div>`:'';
     depSumEl.innerHTML=`<div class="alert warn" style="margin-top:8px;">👨‍👧 Annual cost to your retirement for ${depName}: <strong>${fmtFull(depAnnualCost)}/yr</strong> (${fmtFull(depSupport)} support${depRdsp>0?' + '+fmtFull(depRdsp)+' RDSP':''}) — inflation-adjusted throughout your retirement.</div>${odspNote}${rdspNote}`;
-  } else if(depSumEl){
-    depSumEl.innerHTML='';
-  }
-
-  // Income table
-  renderIncomeTable(cppMo,oasMo,penMo,spCPP,spOAS,spPen,clawback,prov,myAnnual+spAnnual);
-
-  // OAS clawback inline
-  document.getElementById('oas-warn').innerHTML=clawback>0
-    ?`<div class="alert warn" style="margin-top:8px;">⚠️ OAS Clawback: Your gross income exceeds $${CLAWBACK_THRESH.toLocaleString()}. Estimated annual OAS reduction: ${fmtFull(clawback)}.</div>`:'';
-
-  // RRIF inline
-  document.getElementById('rrif-warn').innerHTML=v('rrsp')>0&&age<71
-    ?`<div class="alert info" style="margin-top:8px;">📋 Your RRSP must convert to a RRIF by age 71. Mandatory minimum withdrawals begin — factor this into your tax plan.</div>`:'';
+  } else if(depSumEl){depSumEl.innerHTML='';}
 }
 
 function renderAlerts(clawback,oasMo,portfolio,myAnnual,spAnnual,runoutAge,lifeExp,age,estate,safeDraw){
@@ -846,35 +719,26 @@ function renderAlerts(clawback,oasMo,portfolio,myAnnual,spAnnual,runoutAge,lifeE
   const spendGo=v('sp-go');
   const overSafe=spendGo>0&&spendGo>safeDraw;
 
-  // 1. Portfolio depletion — most urgent, always shown first
   if(runoutAge&&runoutAge<=lifeExp){
     html+=`<div class="alert danger">❌ Portfolio depleted at age ${runoutAge} — ${lifeExp-runoutAge} years before life expectancy. Reduce spending or increase investments.</div>`;
   }
-
-  // 2. Spending vs safe limit
   if(overSafe&&!(runoutAge&&runoutAge<=lifeExp)){
     html+=`<div class="alert warn">⚠️ Your Go-Go spending of ${fmtFull(spendGo)} exceeds the safe limit of ${fmtFull(safeDraw)}. Your estate value will be reduced accordingly.</div>`;
-  } else if(!overSafe&&!(runoutAge&&runoutAge<=lifeExp)){
+  } else if(spendGo>0&&!overSafe&&!(runoutAge&&runoutAge<=lifeExp)){
     const spendHeadroom=safeDraw-spendGo;
     if(spendHeadroom>10000){
       const goYears=Math.min(75,lifeExp)-v('age');
       const totalHeadroom=Math.round(spendHeadroom*Math.max(goYears,1)/1000)*1000;
-      // Calculate what estate would be if spending raised to safe limit
-      // At the safe limit, portfolio reaches ~0 at lifeExp, so estate = home + other only
+      const projectedHome=v('home')>0?Math.round(v('home')*Math.pow(1+v('home-appr')/100,lifeExp-v('age'))/1000)*1000:0;
       const estateAtSafeLimit=projectedHome+v('other');
       const estateImpact=estate-estateAtSafeLimit;
-      const impactNote=estateImpact>50000
-        ?` If you spent at the full safe limit, your est. estate would reduce by approximately ${fmt(estateImpact,0)} to ${fmt(estateAtSafeLimit,0)}.`
-        :'';
+      const impactNote=estateImpact>50000?` If you spent at the full safe limit, your est. estate would reduce by approximately ${fmt(estateImpact,0)} to ${fmt(estateAtSafeLimit,0)}.`:'';
       html+=`<div class="alert info">💡 Spend-it-or-lose-it: You could safely spend up to ${fmtFull(safeDraw)}/yr in your Go-Go years — ${fmtFull(spendHeadroom)}/yr more than your current plan (roughly ${fmt(totalHeadroom,0)} extra over the Go-Go period).${impactNote} Consider enjoying more while you're healthy.</div>`;
     }
   }
-
-  // 3. Guaranteed income covers spending — positive signal
-  if(totalInc>=spendGo&&portfolio>0&&!(runoutAge&&runoutAge<=lifeExp)){
+  if(totalInc>=spendGo&&spendGo>0&&portfolio>0&&!(runoutAge&&runoutAge<=lifeExp)){
     html+=`<div class="alert good">✅ Your guaranteed income covers your Go-Go spending. Your ${fmt(portfolio)} portfolio is essentially a buffer and legacy fund.</div>`;
   }
-
   document.getElementById('alerts').innerHTML=html;
 }
 
@@ -886,7 +750,6 @@ function renderIncomeTable(cpp,oas,pen,spCpp,spOas,spPen,clawback,prov,totalGros
   if(spCpp>0)rows.push(['Spouse CPP',spCpp]);
   if(spOas>0)rows.push(['Spouse OAS',spOas]);
   if(spPen>0)rows.push(['Spouse Pension',spPen]);
-
   let total=0;
   let tbody=rows.map(([lbl,mo])=>{total+=mo;return`<tr><td>${lbl}</td><td class="pos">${fmtFull(mo)}</td><td class="pos">${fmtFull(mo*12)}</td></tr>`;}).join('');
   const tax=estTax(total*12,prov);
@@ -897,7 +760,6 @@ function renderIncomeTable(cpp,oas,pen,spCpp,spOas,spPen,clawback,prov,totalGros
   document.getElementById('tax-note').innerHTML=`Tax is estimated using simplified ${prov} combined federal+provincial rates. Does not include all credits, deductions, or surtaxes. <strong>Consult a tax advisor for precision.</strong>`;
 }
 
-// ── CHART ──
 function drawChart(){
   const canvas=document.getElementById('chart');
   const W=canvas.offsetWidth||720;const H=180;
@@ -905,54 +767,36 @@ function drawChart(){
   const ctx=canvas.getContext('2d');
   ctx.clearRect(0,0,W,H);
   if(!projData.length)return;
-
   const age=v('age'),lifeExp=v('life');
   const data=projData.filter(d=>d.age<=lifeExp+1);
   const maxP=Math.max(...data.map(d=>d.port),1);
   const maxS=Math.max(...data.map(d=>d.spend),1);
   const maxV=Math.max(maxP,maxS);
   const minAge=data[0].age,maxAge=data[data.length-1].age;
-
   function px(a){return((a-minAge)/(maxAge-minAge||1))*(W-20)+10;}
   function py(v){return H-14-((v/maxV)*(H-24));}
-
-  // Phase shading
   const phases=[[age,Math.min(75,maxAge),'rgba(76,175,80,0.05)'],[75,Math.min(85,maxAge),'rgba(240,136,62,0.05)'],[85,maxAge,'rgba(248,81,73,0.05)']];
-  phases.forEach(([s,e,c])=>{
-    if(e>s){ctx.fillStyle=c;ctx.fillRect(px(s),0,px(e)-px(s),H-14);}
-  });
-
-  // Spending line (dashed red)
+  phases.forEach(([s,e,c])=>{if(e>s){ctx.fillStyle=c;ctx.fillRect(px(s),0,px(e)-px(s),H-14);}});
   ctx.beginPath();ctx.strokeStyle='rgba(248,81,73,0.55)';ctx.lineWidth=1.5;ctx.setLineDash([5,5]);
   data.forEach((d,i)=>{i===0?ctx.moveTo(px(d.age),py(d.spend)):ctx.lineTo(px(d.age),py(d.spend));});
   ctx.stroke();ctx.setLineDash([]);
-
-  // Portfolio line (green)
   ctx.beginPath();ctx.strokeStyle='#2ea043';ctx.lineWidth=2.5;
   data.forEach((d,i)=>{i===0?ctx.moveTo(px(d.age),py(d.port)):ctx.lineTo(px(d.age),py(d.port));});
   ctx.stroke();
-
-  // Fill under portfolio line
   ctx.beginPath();
   data.forEach((d,i)=>{i===0?ctx.moveTo(px(d.age),py(d.port)):ctx.lineTo(px(d.age),py(d.port));});
   ctx.lineTo(px(data[data.length-1].age),H-14);ctx.lineTo(px(data[0].age),H-14);ctx.closePath();
   const grad=ctx.createLinearGradient(0,0,0,H);
   grad.addColorStop(0,'rgba(46,160,67,0.15)');grad.addColorStop(1,'rgba(46,160,67,0)');
   ctx.fillStyle=grad;ctx.fill();
-
-  // Age axis labels
   ctx.fillStyle='rgba(125,133,144,0.7)';ctx.font='10px DM Sans';ctx.textAlign='center';
   [age,75,85,lifeExp].filter(a=>a>=minAge&&a<=maxAge).forEach(a=>{ctx.fillText(a,px(a),H-2);});
-
-  // Y axis labels
   ctx.textAlign='left';ctx.fillStyle='rgba(125,133,144,0.5)';
   [0.25,0.5,0.75,1].forEach(f=>{
     const yv=maxV*f;
     ctx.fillText(fmt(yv,0),4,py(yv)+4);
     ctx.strokeStyle='rgba(255,255,255,0.04)';ctx.beginPath();ctx.moveTo(0,py(yv));ctx.lineTo(W,py(yv));ctx.stroke();
   });
-
-  // Milestones
   let ms='<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;font-size:12px;">';
   [75,85,lifeExp].forEach(a=>{
     const d=data.find(x=>x.age===a);
@@ -962,28 +806,22 @@ function drawChart(){
   document.getElementById('proj-milestones').innerHTML=ms;
 }
 
-// ── CPP DEFERRAL TABLE ──
 function renderCPP(){
   const base=v('cpp');
   const lifeExp=v('life');
   const age=v('age');
   const ages=[60,61,62,63,64,65,66,67,68,69,70];
   const base65=adjCPP(base,65)*12;
-
-  // Find best option
   let bestTotalLife=0,bestAge=65;
   ages.forEach(a=>{
     const mo=adjCPP(base,a);
     const total=mo*12*Math.max(0,lifeExp-Math.max(a,age));
     if(total>bestTotalLife){bestTotalLife=total;bestAge=a;}
   });
-
   let tbody='';
   ages.forEach(a=>{
     const mo=adjCPP(base,a);
     const annual=mo*12;
-
-    // Break-even vs age 65
     let be='Baseline';
     if(a!==65){
       if(a<65){
@@ -997,7 +835,6 @@ function renderCPP(){
         be=annualGain>0?'Age '+(a+Math.ceil(foregone/annualGain)):'Never';
       }
     }
-
     const totalBy85=annual*Math.max(0,85-Math.max(a,age));
     const totalToLife=annual*Math.max(0,lifeExp-Math.max(a,age));
     const isBest=a===bestAge;
@@ -1006,7 +843,6 @@ function renderCPP(){
   document.getElementById('cpp-tbody').innerHTML=tbody;
 }
 
-// ── MONTE CARLO / SCENARIOS ──
 function renderMC(){
   const port=v('rrsp')+v('tfsa')+v('nreg');
   const lifeExp=v('life');
@@ -1016,18 +852,15 @@ function renderMC(){
   const annualSpend=v('sp-go');
   const guarInc=(v('cpp')+v('oas')+v('pen'))*12;
   const annualDraw=Math.max(0,annualSpend-guarInc);
-
   const scenarios=[
     {label:'Bear (2%)',ret:0.02,col:'var(--danger)'},
     {label:'Caution (4%)',ret:0.04,col:'var(--accent2)'},
     {label:'Balanced (6%)',ret:0.06,col:'var(--blue)'},
     {label:'Growth (8%)',ret:0.08,col:'var(--accent)'},
   ];
-
   let html='';
   scenarios.forEach(s=>{
-    let p=port;
-    let depletedAt=null;
+    let p=port;let depletedAt=null;
     for(let y=0;y<years;y++){
       p=p*(1+s.ret)-annualDraw*Math.pow(1+inf,y);
       if(p<0&&!depletedAt){depletedAt=age+y;p=0;}
@@ -1043,21 +876,17 @@ function renderMC(){
     <div style="font-size:11px;color:var(--muted);margin:-6px 0 8px 110px;">${label}</div>`;
   });
   document.getElementById('mc-bars').innerHTML=html;
-
-  // Auto-run the configurable scenarios once MC tab is shown
   runCrashScenario();
   runInflationScenario();
 }
 
 function _scenarioBase(){
   return {
-    port: v('rrsp')+v('tfsa')+v('nreg'),
-    lifeExp: v('life'),
-    age: v('age'),
-    inf: v('inf')/100,
-    ret: v('ret')/100,
-    annualDraw: Math.max(0, v('sp-go')-(v('cpp')+v('oas')+v('pen'))*12),
-    years: v('life')-v('age'),
+    port:v('rrsp')+v('tfsa')+v('nreg'),
+    lifeExp:v('life'),age:v('age'),
+    inf:v('inf')/100,ret:v('ret')/100,
+    annualDraw:Math.max(0,v('sp-go')-(v('cpp')+v('oas')+v('pen'))*12),
+    years:v('life')-v('age'),
   };
 }
 
@@ -1097,16 +926,12 @@ function runInflationScenario(){
   el.innerHTML=`<div class="alert ${dep?'danger':'good'}" style="font-size:12px;">🔍 ${msg}</div>`;
 }
 
-// ── SPENDING PHASE INSIGHTS ──
 function renderSpendInsights(safeDraw,age,lifeExp){
   const go=v('sp-go'),sl=v('sp-sl'),no=v('sp-no');
   const el=document.getElementById('spend-alert');
   if(!el)return;
   if(!go&&!sl&&!no){el.innerHTML='';return;}
-
   let html='';
-
-  // Go-Go headroom
   if(go>0&&safeDraw>0){
     const goYears=Math.max(1,Math.min(75,lifeExp)-age);
     const headroom=safeDraw-go;
@@ -1117,92 +942,40 @@ function renderSpendInsights(safeDraw,age,lifeExp){
       html+=`<div class="alert warn" style="margin-top:8px;">⚠️ <strong>Go-Go overspend:</strong> Your ${fmtFull(go)}/yr exceeds the safe limit of ${fmtFull(safeDraw)}/yr by ${fmtFull(Math.abs(headroom))}. This will draw down your portfolio faster than projected.</div>`;
     }
   }
-
-  // Phase step-down check
   if(go>0&&sl>0&&sl>go*0.95){
-    html+=`<div class="alert warn" style="margin-top:8px;">⚠️ <strong>Slow-Go spending</strong> (${fmtFull(sl)}/yr) is close to or above your Go-Go spending. Most retirees spend 15–25% less in Slow-Go years as activity naturally reduces. Consider whether this reflects your plan.</div>`;
+    html+=`<div class="alert warn" style="margin-top:8px;">⚠️ <strong>Slow-Go spending</strong> (${fmtFull(sl)}/yr) is close to or above your Go-Go spending. Most retirees spend 15–25% less in Slow-Go years as activity naturally reduces.</div>`;
   }
   if(sl>0&&no>0&&no>sl*0.95){
-    html+=`<div class="alert warn" style="margin-top:8px;">⚠️ <strong>No-Go spending</strong> (${fmtFull(no)}/yr) is close to or above your Slow-Go spending. This is unusual unless long-term care costs are significant — those are better captured in the LTC field below.</div>`;
+    html+=`<div class="alert warn" style="margin-top:8px;">⚠️ <strong>No-Go spending</strong> (${fmtFull(no)}/yr) is close to or above your Slow-Go spending. Consider whether long-term care costs are better captured in the LTC field below.</div>`;
   }
-
-  // Positive confirmation when phases step down sensibly
   if(go>0&&sl>0&&no>0&&sl<go&&no<sl){
     html+=`<div class="alert good" style="margin-top:8px;">✅ Your spending phases step down sensibly: ${fmtFull(go)} → ${fmtFull(sl)} → ${fmtFull(no)}/yr. This three-phase model gives a more accurate projection than a flat spending assumption.</div>`;
   }
-
   el.innerHTML=html;
 }
 
-// ── REAL ESTATE APPRECIATION INFO ──
-let reInfoLoaded=false;
-function showREInfo(){
-  const popup=document.getElementById('re-popup');
-  if(!popup)return;
-  if(popup.style.display!=='none'){popup.style.display='none';return;}
-  popup.style.display='block';
-  if(reInfoLoaded)return;
-  popup.innerHTML=`
-    <strong style="color:var(--text);font-size:12px;">🏠 Canadian Real Estate Historical Appreciation (approx. 10-yr avg. to 2024)</strong>
-    <table style="width:100%;border-collapse:collapse;margin-top:10px;font-size:11px;">
-      <tr style="border-bottom:1px solid var(--border);">
-        <th style="text-align:left;padding:5px 6px;color:var(--muted);">Market</th>
-        <th style="text-align:right;padding:5px 6px;color:var(--muted);">Avg. Annual Appreciation</th>
-      </tr>
-      <tr style="border-bottom:1px solid rgba(255,255,255,0.04);"><td style="padding:5px 6px;">Toronto (GTA)</td><td style="padding:5px 6px;text-align:right;color:var(--accent);">~7–8%</td></tr>
-      <tr style="border-bottom:1px solid rgba(255,255,255,0.04);"><td style="padding:5px 6px;">Vancouver</td><td style="padding:5px 6px;text-align:right;color:var(--accent);">~6–8%</td></tr>
-      <tr style="border-bottom:1px solid rgba(255,255,255,0.04);"><td style="padding:5px 6px;">Ottawa</td><td style="padding:5px 6px;text-align:right;color:var(--accent);">~5–6%</td></tr>
-      <tr style="border-bottom:1px solid rgba(255,255,255,0.04);"><td style="padding:5px 6px;">Calgary</td><td style="padding:5px 6px;text-align:right;color:var(--accent);">~3–5%</td></tr>
-      <tr style="border-bottom:1px solid rgba(255,255,255,0.04);"><td style="padding:5px 6px;">Montreal</td><td style="padding:5px 6px;text-align:right;color:var(--accent);">~4–5%</td></tr>
-      <tr style="border-bottom:1px solid rgba(255,255,255,0.04);"><td style="padding:5px 6px;">National average</td><td style="padding:5px 6px;text-align:right;color:var(--accent);">~4–5%</td></tr>
-      <tr><td style="padding:5px 6px;">Conservative planning rate</td><td style="padding:5px 6px;text-align:right;color:var(--accent);">~3%</td></tr>
-    </table>
-    <div style="margin-top:10px;font-size:11px;color:var(--muted);line-height:1.5;">💡 <strong style="color:var(--text);">For planning</strong>, most advisors suggest <strong style="color:var(--text);">3–4%</strong> as a conservative long-term assumption. Past appreciation does not guarantee future results.</div>`;
-  reInfoLoaded=true;
-}
-
-// ── PDF EXPORT ──
 function printReport(){
-  // Ensure chart is rendered first
   drawChart();
   const chartImg=document.getElementById('chart').toDataURL('image/png');
-
-  // Gather inputs
-  const userFirst=(document.getElementById('user-first').value.trim());
-  const userLast=(document.getElementById('user-last').value.trim());
+  const userFirst=document.getElementById('user-first').value.trim();
+  const userLast=document.getElementById('user-last').value.trim();
   const userName=userFirst||userLast?(userFirst+' '+userLast).trim():'';
-  const age=v('age');
-  const lifeExp=v('life');
-  const inf=v('inf');
-  const ret=v('ret');
+  const age=v('age'),lifeExp=v('life'),inf=v('inf'),ret=v('ret');
   const prov=document.getElementById('prov').value;
-  const cppAge=document.getElementById('cpp-age').value;
-  const oasAge=document.getElementById('oas-age').value;
   const rrsp=v('rrsp'),tfsa=v('tfsa'),nreg=v('nreg');
   const portfolio=rrsp+tfsa+nreg;
-  const homeVal=v('home');
-  const homeAppr=homeVal>0?v('home-appr'):null;
-  const other=v('other');
+  const homeVal=v('home'),homeAppr=homeVal>0?v('home-appr'):null,other=v('other');
   const spGo=v('sp-go'),spSl=v('sp-sl'),spNo=v('sp-no');
   const ltc=v('ltc'),ltcAge=v('ltc-age');
   const hasSpouse=document.getElementById('has-sp').checked;
   const hasDep=document.getElementById('has-dep').checked;
-  const depName=(document.getElementById('dep-name').value.trim())||'Dependent Child';
+  const depName=document.getElementById('dep-name').value.trim()||'Dependent Child';
   const depSupport=v('dep-support'),depRdsp=v('dep-rdsp'),depOdsp=v('dep-odsp');
-
-  // Key results from DOM
   const runway=document.getElementById('r-runway').textContent;
   const safeDraw=document.getElementById('r-safe').textContent;
   const estate=document.getElementById('r-estate').textContent;
-
-  // Income table HTML
   const incTable=document.getElementById('inc-tbody')?.innerHTML||'';
-
-  // Projection milestones
   const miles=document.getElementById('proj-milestones')?.innerHTML||'';
-
-  // Scenario results
-  // Re-run scenarios inline for PDF
   const scenarios=[
     {label:'Bear (2%)',ret:0.02},{label:'Caution (4%)',ret:0.04},
     {label:'Balanced (6%)',ret:0.06},{label:'Growth (8%)',ret:0.08}
@@ -1219,129 +992,41 @@ function printReport(){
       if(p<0&&!dep){dep=age+y;p=0;}
     }
     const ok=!dep;
-    scHTML+=`<tr style="border-bottom:1px solid #eee;">
-      <td style="padding:5px 8px;">${s.label}</td>
-      <td style="padding:5px 8px;color:${ok?'#2a7a3b':'#c0392b'};">${ok?'✓ Lasts to life expectancy':'Depleted at age '+(dep||'?')}</td>
-    </tr>`;
+    scHTML+=`<tr style="border-bottom:1px solid #eee;"><td style="padding:5px 8px;">${s.label}</td><td style="padding:5px 8px;color:${ok?'#2a7a3b':'#c0392b'};">${ok?'✓ Lasts to life expectancy':'Depleted at age '+(dep||'?')}</td></tr>`;
   });
   scHTML+='</table>';
-
-  const depSection=hasDep?`
-    <div style="background:#fff8e1;border:1px solid #ffe082;border-radius:8px;padding:14px;margin-bottom:16px;">
-      <div style="font-size:14px;font-weight:700;margin-bottom:8px;color:#795548;">🧑‍🦽 Dependent Adult Child — ${depName}</div>
-      <table style="width:100%;border-collapse:collapse;font-size:12px;">
-        <tr><td style="padding:3px 6px;color:#555;">Annual Support Provided</td><td style="padding:3px 6px;text-align:right;font-weight:600;">${fmtFull(depSupport)}/yr</td></tr>
-        ${depRdsp>0?`<tr><td style="padding:3px 6px;color:#555;">RDSP Annual Contribution</td><td style="padding:3px 6px;text-align:right;font-weight:600;">${fmtFull(depRdsp)}/yr</td></tr>`:''}
-        ${depOdsp>0?`<tr><td style="padding:3px 6px;color:#555;">ODSP / Gov't Benefit (child receives)</td><td style="padding:3px 6px;text-align:right;color:#2a7a3b;">${fmtFull(depOdsp)}/mo · ${fmtFull(depOdsp*12)}/yr</td></tr>`:''}
-        <tr style="border-top:1px solid #ddd;"><td style="padding:5px 6px;font-weight:700;">Total Annual Cost to Your Retirement</td><td style="padding:5px 6px;text-align:right;font-weight:700;color:#c0392b;">${fmtFull(depSupport+depRdsp)}/yr</td></tr>
-      </table>
-    </div>`:'';
-
+  const depSection=hasDep?`<div style="background:#fff8e1;border:1px solid #ffe082;border-radius:8px;padding:14px;margin-bottom:16px;"><div style="font-size:14px;font-weight:700;margin-bottom:8px;color:#795548;">🧑‍🦽 Dependent Adult Child — ${depName}</div><table style="width:100%;border-collapse:collapse;font-size:12px;"><tr><td style="padding:3px 6px;color:#555;">Annual Support Provided</td><td style="padding:3px 6px;text-align:right;font-weight:600;">${fmtFull(depSupport)}/yr</td></tr>${depRdsp>0?`<tr><td style="padding:3px 6px;color:#555;">RDSP Annual Contribution</td><td style="padding:3px 6px;text-align:right;font-weight:600;">${fmtFull(depRdsp)}/yr</td></tr>`:''} ${depOdsp>0?`<tr><td style="padding:3px 6px;color:#555;">ODSP / Gov't Benefit (child receives)</td><td style="padding:3px 6px;text-align:right;color:#2a7a3b;">${fmtFull(depOdsp)}/mo · ${fmtFull(depOdsp*12)}/yr</td></tr>`:''}<tr style="border-top:1px solid #ddd;"><td style="padding:5px 6px;font-weight:700;">Total Annual Cost to Your Retirement</td><td style="padding:5px 6px;text-align:right;font-weight:700;color:#c0392b;">${fmtFull(depSupport+depRdsp)}/yr</td></tr></table></div>`:'';
   const now=new Date().toLocaleDateString('en-CA',{year:'numeric',month:'long',day:'numeric'});
-  const html=`<!DOCTYPE html><html><head><meta charset="UTF-8"/>
-  <title>Retirement Plan — ${now}</title>
-  <style>
-    *{box-sizing:border-box;margin:0;padding:0;}
-    body{font-family:'Segoe UI',Arial,sans-serif;font-size:13px;color:#1a1a1a;background:#fff;padding:24px 30px 40px;}
-    h1{font-size:22px;font-weight:700;color:#1a1a2e;margin-bottom:2px;}
-    h2{font-size:14px;font-weight:700;color:#1a1a2e;margin:16px 0 8px;border-bottom:1px solid #e0e0e0;padding-bottom:4px;}
-    .sub{font-size:11px;color:#888;margin-bottom:16px;}
-    .results-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px;}
-    .result-box{background:#f4f6fa;border-radius:8px;padding:12px;text-align:center;}
-    .result-val{font-size:22px;font-weight:700;}
-    .result-val.green{color:#2a7a3b;}.result-val.blue{color:#1a5fa8;}.result-val.gold{color:#b8860b;}
-    .result-label{font-size:10px;color:#888;margin-top:3px;}
-    .input-grid{display:grid;grid-template-columns:1fr 1fr;gap:4px 24px;margin-bottom:8px;}
-    .input-row{display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid #f0f0f0;font-size:12px;}
-    .input-row span:first-child{color:#555;}
-    .input-row span:last-child{font-weight:600;}
-    table{width:100%;border-collapse:collapse;font-size:12px;margin-bottom:8px;}
-    th{text-align:left;padding:5px 8px;font-size:10px;color:#888;text-transform:uppercase;border-bottom:1px solid #ddd;}
-    td{padding:5px 8px;border-bottom:1px solid #f0f0f0;}
-    td.pos{color:#2a7a3b;} td.neg{color:#c0392b;} td.tot{font-weight:700;}
-    .chart-img{width:100%;border-radius:6px;margin:8px 0;}
-    .disc{font-size:10px;color:#aaa;margin-top:20px;border-top:1px solid #eee;padding-top:10px;line-height:1.6;}
-    .phase-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px;}
-    .phase-box{background:#f9f9f9;border-radius:6px;padding:10px;text-align:center;}
-    .phase-label{font-size:10px;font-weight:700;text-transform:uppercase;margin-bottom:2px;}
-    .phase-val{font-size:15px;font-weight:700;}
-    @media print{body{padding:0 16px;} .no-print{display:none;}}
-  </style>
-  </head><body>
-  <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px;">
-    <div><h1>🍁 Canadian Retirement Plan${userName?' — '+userName:''}</h1><div class="sub">Generated ${now} · Version 4.0 · Province: ${prov}</div></div>
-    <button class="no-print" onclick="window.print()" style="background:#1a5fa8;color:#fff;border:none;border-radius:6px;padding:8px 18px;font-size:13px;cursor:pointer;">🖨 Save as PDF</button>
-  </div>
-
-  <h2>Key Results</h2>
-  <div class="results-row">
-    <div class="result-box"><div class="result-val ${document.getElementById('r-runway').className.includes('red')?'red':'green'}">${runway}</div><div class="result-label">Money lasts until</div></div>
-    <div class="result-box"><div class="result-val blue">${safeDraw}</div><div class="result-label">Max safe Go-Go spend</div></div>
-    <div class="result-box"><div class="result-val gold">${estate}</div><div class="result-label">Est. estate at life exp.</div></div>
-  </div>
-
-  <h2>Your Profile</h2>
-  <div class="input-grid">
-    <div class="input-row"><span>Current Age</span><span>${age}</span></div>
-    <div class="input-row"><span>Life Expectancy</span><span>Age ${lifeExp}</span></div>
-    <div class="input-row"><span>Inflation Rate</span><span>${inf}%</span></div>
-    <div class="input-row"><span>Investment Return</span><span>${ret}%</span></div>
-    <div class="input-row"><span>Est. Estate at Life Exp.</span><span>${estate}</span></div>
-    <div class="input-row"><span>Province</span><span>${prov}</span></div>
-  </div>
-
-  <h2>Guaranteed Income</h2>
-  <table>
-    <thead><tr><th>Source</th><th>Monthly</th><th>Annual</th></tr></thead>
-    <tbody>${incTable}</tbody>
-  </table>
-
-  <h2>Investments &amp; Savings</h2>
-  <div class="input-grid">
-    <div class="input-row"><span>RRSP / RRIF</span><span>${fmtFull(rrsp)}</span></div>
-    <div class="input-row"><span>TFSA</span><span>${fmtFull(tfsa)}</span></div>
-    <div class="input-row"><span>Non-Registered</span><span>${fmtFull(nreg)}</span></div>
-    <div class="input-row"><span>Total Portfolio</span><span style="font-weight:700;">${fmtFull(portfolio)}</span></div>
-    ${homeVal>0?`<div class="input-row"><span>Home Value</span><span>${fmtFull(homeVal)} (${homeAppr}%/yr)</span></div>`:''}
-    ${other>0?`<div class="input-row"><span>Other Assets</span><span>${fmtFull(other)}</span></div>`:''}
-  </div>
-
-  <h2>Spending Phases</h2>
-  <div class="phase-row">
-    <div class="phase-box"><div class="phase-label" style="color:#2a7a3b;">🟢 Go-Go (65–75)</div><div class="phase-val">${fmtFull(spGo)}/yr</div></div>
-    <div class="phase-box"><div class="phase-label" style="color:#d4700a;">🟡 Slow-Go (75–85)</div><div class="phase-val">${fmtFull(spSl)}/yr</div></div>
-    <div class="phase-box"><div class="phase-label" style="color:#c0392b;">🔴 No-Go (85+)</div><div class="phase-val">${fmtFull(spNo)}/yr</div></div>
-  </div>
-  ${ltc>0?`<div style="font-size:12px;color:#888;margin-top:-4px;margin-bottom:12px;">Long-Term Care: ${fmtFull(ltc)}/yr added from age ${ltcAge}</div>`:''}
-
+  const html=`<!DOCTYPE html><html><head><meta charset="UTF-8"/><title>Retirement Plan — ${now}</title><style>*{box-sizing:border-box;margin:0;padding:0;}body{font-family:'Segoe UI',Arial,sans-serif;font-size:13px;color:#1a1a1a;background:#fff;padding:24px 30px 40px;}h1{font-size:22px;font-weight:700;color:#1a1a2e;margin-bottom:2px;}h2{font-size:14px;font-weight:700;color:#1a1a2e;margin:16px 0 8px;border-bottom:1px solid #e0e0e0;padding-bottom:4px;}.sub{font-size:11px;color:#888;margin-bottom:16px;}.results-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px;}.result-box{background:#f4f6fa;border-radius:8px;padding:12px;text-align:center;}.result-val{font-size:22px;font-weight:700;}.result-val.green{color:#2a7a3b;}.result-val.blue{color:#1a5fa8;}.result-val.gold{color:#b8860b;}.input-grid{display:grid;grid-template-columns:1fr 1fr;gap:4px 24px;margin-bottom:8px;}.input-row{display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid #f0f0f0;font-size:12px;}.input-row span:first-child{color:#555;}.input-row span:last-child{font-weight:600;}table{width:100%;border-collapse:collapse;font-size:12px;margin-bottom:8px;}th{text-align:left;padding:5px 8px;font-size:10px;color:#888;text-transform:uppercase;border-bottom:1px solid #ddd;}td{padding:5px 8px;border-bottom:1px solid #f0f0f0;}td.pos{color:#2a7a3b;}td.neg{color:#c0392b;}td.tot{font-weight:700;}.chart-img{width:100%;border-radius:6px;margin:8px 0;}.disc{font-size:10px;color:#aaa;margin-top:20px;border-top:1px solid #eee;padding-top:10px;line-height:1.6;}.phase-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px;}.phase-box{background:#f9f9f9;border-radius:6px;padding:10px;text-align:center;}.phase-label{font-size:10px;font-weight:700;text-transform:uppercase;margin-bottom:2px;}.phase-val{font-size:15px;font-weight:700;}@media print{body{padding:0 16px;}.no-print{display:none;}}</style></head><body>
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px;"><div><h1>🍁 Canadian Retirement Plan${userName?' — '+userName:''}</h1><div class="sub">Generated ${now} · Version 4.0 · Province: ${prov}</div></div><button class="no-print" onclick="window.print()" style="background:#1a5fa8;color:#fff;border:none;border-radius:6px;padding:8px 18px;font-size:13px;cursor:pointer;">🖨 Save as PDF</button></div>
+  <h2>Key Results</h2><div class="results-row"><div class="result-box"><div class="result-val ${document.getElementById('r-runway').className.includes('red')?'red':'green'}">${runway}</div><div style="font-size:10px;color:#888;margin-top:3px;">Money lasts until</div></div><div class="result-box"><div class="result-val blue">${safeDraw}</div><div style="font-size:10px;color:#888;margin-top:3px;">Max safe Go-Go spend</div></div><div class="result-box"><div class="result-val gold">${estate}</div><div style="font-size:10px;color:#888;margin-top:3px;">Est. estate at life exp.</div></div></div>
+  <h2>Your Profile</h2><div class="input-grid"><div class="input-row"><span>Current Age</span><span>${age}</span></div><div class="input-row"><span>Life Expectancy</span><span>Age ${lifeExp}</span></div><div class="input-row"><span>Inflation Rate</span><span>${inf}%</span></div><div class="input-row"><span>Investment Return</span><span>${ret}%</span></div><div class="input-row"><span>Est. Estate at Life Exp.</span><span>${estate}</span></div><div class="input-row"><span>Province</span><span>${prov}</span></div></div>
+  <h2>Guaranteed Income</h2><table><thead><tr><th>Source</th><th>Monthly</th><th>Annual</th></tr></thead><tbody>${incTable}</tbody></table>
+  <h2>Investments &amp; Savings</h2><div class="input-grid"><div class="input-row"><span>RRSP / RRIF</span><span>${fmtFull(rrsp)}</span></div><div class="input-row"><span>TFSA</span><span>${fmtFull(tfsa)}</span></div><div class="input-row"><span>Non-Registered</span><span>${fmtFull(nreg)}</span></div><div class="input-row"><span>Total Portfolio</span><span style="font-weight:700;">${fmtFull(portfolio)}</span></div>${homeVal>0?`<div class="input-row"><span>Home Value</span><span>${fmtFull(homeVal)} (${homeAppr}%/yr)</span></div>`:''} ${other>0?`<div class="input-row"><span>Other Assets</span><span>${fmtFull(other)}</span></div>`:''}</div>
+  <h2>Spending Phases</h2><div class="phase-row"><div class="phase-box"><div class="phase-label" style="color:#2a7a3b;">🟢 Go-Go (65–75)</div><div class="phase-val">${spGo>0?fmtFull(spGo)+'/yr':'—'}</div></div><div class="phase-box"><div class="phase-label" style="color:#d4700a;">🟡 Slow-Go (75–85)</div><div class="phase-val">${spSl>0?fmtFull(spSl)+'/yr':'—'}</div></div><div class="phase-box"><div class="phase-label" style="color:#c0392b;">🔴 No-Go (85+)</div><div class="phase-val">${spNo>0?fmtFull(spNo)+'/yr':'—'}</div></div></div>${ltc>0?`<div style="font-size:12px;color:#888;margin-top:-4px;margin-bottom:12px;">Long-Term Care: ${fmtFull(ltc)}/yr added from age ${ltcAge}</div>`:''}
   ${depSection}
-
-  <h2>Portfolio Projection</h2>
-  <img class="chart-img" src="${chartImg}" alt="Portfolio Projection Chart"/>
-  ${miles?`<div style="margin-top:8px;">${miles}</div>`:''}
-
-  <h2>Scenario Analysis</h2>
-  ${scHTML}
-
-  ${hasSpouse?`<h2>Spouse / Partner</h2>
-  <div class="input-grid">
-    <div class="input-row"><span>Spouse Age</span><span>${v('sp-age')}</span></div>
-    <div class="input-row"><span>Spouse Life Exp.</span><span>Age ${v('sp-life')}</span></div>
-    <div class="input-row"><span>Spouse CPP</span><span>${fmtFull(v('sp-cpp'))}/mo</span></div>
-    <div class="input-row"><span>Spouse OAS</span><span>${fmtFull(v('sp-oas'))}/mo</span></div>
-    ${v('sp-pen')>0?`<div class="input-row"><span>Spouse Pension</span><span>${fmtFull(v('sp-pen'))}/mo</span></div>`:''}
-  </div>`:''}
-
+  <h2>Portfolio Projection</h2><img class="chart-img" src="${chartImg}" alt="Portfolio Projection Chart"/>${miles?`<div style="margin-top:8px;">${miles}</div>`:''}
+  <h2>Scenario Analysis</h2>${scHTML}
+  ${hasSpouse?`<h2>Spouse / Partner</h2><div class="input-grid"><div class="input-row"><span>Spouse Age</span><span>${v('sp-age')}</span></div><div class="input-row"><span>Spouse Life Exp.</span><span>Age ${v('sp-life')}</span></div><div class="input-row"><span>Spouse CPP</span><span>${fmtFull(v('sp-cpp'))}/mo</span></div><div class="input-row"><span>Spouse OAS</span><span>${fmtFull(v('sp-oas'))}/mo</span></div>${v('sp-pen')>0?`<div class="input-row"><span>Spouse Pension</span><span>${fmtFull(v('sp-pen'))}/mo</span></div>`:''}</div>`:''}
   <div class="disc">This report is generated by the Canadian Retirement Calculator for personal planning purposes only. It does not constitute financial, tax, or legal advice. Projections are estimates based on the assumptions entered and may not reflect actual future outcomes. Consult a licensed financial advisor or tax professional for personalized guidance. CPP, OAS, and tax figures are based on 2024 rates and are subject to change.</div>
   </body></html>`;
-
   const w=window.open('','_blank');
   w.document.write(html);
   w.document.close();
 }
 
+let reInfoLoaded=false;
+function showREInfo(){
+  const popup=document.getElementById('re-popup');
+  if(!popup)return;
+  if(popup.style.display!=='none'){popup.style.display='none';return;}
+  popup.style.display='block';
+  if(reInfoLoaded)return;
+  popup.innerHTML=`<strong style="color:var(--text);font-size:12px;">🏠 Canadian Real Estate Historical Appreciation (approx. 10-yr avg. to 2024)</strong><table style="width:100%;border-collapse:collapse;margin-top:10px;font-size:11px;"><tr style="border-bottom:1px solid var(--border);"><th style="text-align:left;padding:5px 6px;color:var(--muted);">Market</th><th style="text-align:right;padding:5px 6px;color:var(--muted);">Avg. Annual Appreciation</th></tr><tr style="border-bottom:1px solid rgba(255,255,255,0.04);"><td style="padding:5px 6px;">Toronto (GTA)</td><td style="padding:5px 6px;text-align:right;color:var(--accent);">~7–8%</td></tr><tr style="border-bottom:1px solid rgba(255,255,255,0.04);"><td style="padding:5px 6px;">Vancouver</td><td style="padding:5px 6px;text-align:right;color:var(--accent);">~6–8%</td></tr><tr style="border-bottom:1px solid rgba(255,255,255,0.04);"><td style="padding:5px 6px;">Ottawa</td><td style="padding:5px 6px;text-align:right;color:var(--accent);">~5–6%</td></tr><tr style="border-bottom:1px solid rgba(255,255,255,0.04);"><td style="padding:5px 6px;">Calgary</td><td style="padding:5px 6px;text-align:right;color:var(--accent);">~3–5%</td></tr><tr style="border-bottom:1px solid rgba(255,255,255,0.04);"><td style="padding:5px 6px;">Montreal</td><td style="padding:5px 6px;text-align:right;color:var(--accent);">~4–5%</td></tr><tr style="border-bottom:1px solid rgba(255,255,255,0.04);"><td style="padding:5px 6px;">National average</td><td style="padding:5px 6px;text-align:right;color:var(--accent);">~4–5%</td></tr><tr><td style="padding:5px 6px;">Conservative planning rate</td><td style="padding:5px 6px;text-align:right;color:var(--accent);">~3%</td></tr></table><div style="margin-top:10px;font-size:11px;color:var(--muted);line-height:1.5;">💡 <strong style="color:var(--text);">For planning</strong>, most advisors suggest <strong style="color:var(--text);">3–4%</strong> as a conservative long-term assumption.</div>`;
+  reInfoLoaded=true;
+}
+
 // ── INIT ──
-// Wire comma formatting to all currency inputs
 ['cpp','oas','pen','rrsp','tfsa','nreg','home','other','sp-go','sp-sl','sp-no','ltc','sp-cpp','sp-oas','sp-pen','dep-support','dep-rdsp','dep-odsp'].forEach(setupCommaInput);
 calc();
 </script>
