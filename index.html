@@ -225,10 +225,11 @@ canvas{border-radius:6px;}
     <div class="sec-tog open" id="t-inv">▼</div>
   </div>
   <div class="sec-body open" id="b-inv">
+    <p style="font-size:12px;color:var(--muted);margin-bottom:12px;">Enter numbers only — no $ signs or commas. Commas are added automatically.</p>
     <div class="row row-3">
-      <div class="field"><label>RRSP / RRIF <span class="tip" title="Fully taxable on withdrawal. Must convert to RRIF by age 71.">?</span></label><input type="text" inputmode="numeric" id="rrsp" value="500,000" oninput="calc()"/></div>
-      <div class="field"><label>TFSA <span class="tip" title="All withdrawals are completely tax-free.">?</span></label><input type="text" inputmode="numeric" id="tfsa" value="200,000" oninput="calc()"/></div>
-      <div class="field"><label>Non-Registered <span class="tip" title="Capital gains (50% inclusion) and dividends are taxable.">?</span></label><input type="text" inputmode="numeric" id="nreg" value="300,000" oninput="calc()"/></div>
+      <div class="field"><label>RRSP / RRIF <span class="tip" title="Fully taxable on withdrawal. Must convert to RRIF by age 71.">?</span></label><input type="text" inputmode="numeric" id="rrsp" placeholder="0" oninput="calc()"/></div>
+      <div class="field"><label>TFSA <span class="tip" title="All withdrawals are completely tax-free.">?</span></label><input type="text" inputmode="numeric" id="tfsa" placeholder="0" oninput="calc()"/></div>
+      <div class="field"><label>Non-Registered <span class="tip" title="Capital gains (50% inclusion) and dividends are taxable.">?</span></label><input type="text" inputmode="numeric" id="nreg" placeholder="0" oninput="calc()"/></div>
     </div>
     <div class="row row-2">
       <div class="field">
@@ -251,6 +252,31 @@ canvas{border-radius:6px;}
         <div id="re-popup" style="display:none;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px;margin-top:8px;font-size:12px;color:var(--muted);line-height:1.6;"></div>
         <div id="home-proj-note" style="font-size:12px;color:var(--gold);margin-top:6px;"></div>
       </div>
+    </div>
+    <!-- V6: Secondary property -->
+    <div class="div"></div>
+    <div class="toggle-row" style="margin-bottom:0;">
+      <span style="font-size:14px;">I own a secondary property (cottage, rental, etc.) <span class="tip" title="Secondary properties are subject to capital gains tax at disposition — unlike a principal residence. The calculator estimates the tax owing at your life expectancy and deducts it from your estate.">?</span></span>
+      <label class="toggle"><input type="checkbox" id="has-secondary" onchange="togSecondary()"><div class="tog-sl"></div></label>
+    </div>
+    <div id="secondary-fields" style="display:none;margin-top:12px;">
+      <div class="row row-3">
+        <div class="field">
+          <label>Current Market Value <span class="tip" title="Current fair market value of the secondary property.">?</span></label>
+          <input type="text" inputmode="numeric" id="sec-value" placeholder="0" oninput="calc()"/>
+        </div>
+        <div class="field">
+          <label>Adjusted Cost Base (ACB) <span class="tip" title="What you originally paid, including purchase costs and any capital improvements. The capital gain is calculated as projected value minus ACB.">?</span></label>
+          <input type="text" inputmode="numeric" id="sec-acb" placeholder="0" oninput="calc()"/>
+          <div class="hint">Purchase price + improvements</div>
+        </div>
+        <div class="field">
+          <label>Annual Appreciation Rate</label>
+          <input type="range" id="sec-appr" min="0" max="10" step="0.5" value="3" oninput="document.getElementById('sec-appr-val').textContent=this.value+'%';calc()"/>
+          <div class="range-val" id="sec-appr-val">3%</div>
+        </div>
+      </div>
+      <div id="sec-tax-note"></div>
     </div>
     <div id="rrif-warn"></div>
   </div>
@@ -313,7 +339,7 @@ canvas{border-radius:6px;}
       </div>
       <div class="row row-3">
         <div class="field"><label>Spouse Age</label><input type="number" id="sp-age" value="65" oninput="calc()"/></div>
-        <div class="field"><label>Spouse CPP (monthly)</label><input type="text" inputmode="numeric" id="sp-cpp" value="900" oninput="calc()"/></div>
+        <div class="field"><label>Spouse CPP (monthly)</label><input type="text" inputmode="numeric" id="sp-cpp" placeholder="0" oninput="calc()"/></div>
         <div class="field"><label>Spouse OAS (monthly)</label><input type="text" inputmode="numeric" id="sp-oas" placeholder="0" oninput="calc()"/></div>
       </div>
       <div class="row row-2">
@@ -354,7 +380,7 @@ canvas{border-radius:6px;}
         </div>
         <div class="field">
           <label>Annual Support You Provide <span class="tip" title="The total amount you contribute to your dependent child each year.">?</span></label>
-          <input type="text" inputmode="numeric" id="dep-support" value="12,000" oninput="calc()"/>
+          <input type="text" inputmode="numeric" id="dep-support" placeholder="0" oninput="calc()"/>
         </div>
       </div>
       <div class="row row-2">
@@ -374,7 +400,82 @@ canvas{border-radius:6px;}
   </div>
 </div>
 
-<!-- 7. DETAILED ANALYSIS -->
+<!-- 7. PRE-RETIREMENT SAVINGS (V6) -->
+<div class="sec">
+  <div class="sec-head" onclick="tog('pre')">
+    <div class="sec-title">💼 Pre-Retirement Savings</div>
+    <div class="sec-tog" id="t-pre">▼</div>
+  </div>
+  <div class="sec-body" id="b-pre">
+
+    <!-- Feature 1: Still working toggle -->
+    <div class="toggle-row">
+      <span style="font-size:14px;">I am still working / accumulating savings</span>
+      <label class="toggle"><input type="checkbox" id="has-work" onchange="togWork()"><div class="tog-sl"></div></label>
+    </div>
+    <div id="work-fields" style="display:none;">
+      <div class="row row-2" style="margin-top:12px;">
+        <div class="field">
+          <label>Planned Retirement Age <span class="tip" title="Age when you plan to stop working and start drawing on your portfolio.">?</span></label>
+          <input type="number" id="retire-age" value="65" min="50" max="85" oninput="calc()"/>
+        </div>
+        <div class="field">
+          <label>Annual Employment Income <span class="tip" title="Your gross employment income — used only to estimate the RRSP tax refund. Not used in spending projections.">?</span></label>
+          <input type="text" inputmode="numeric" id="work-income" placeholder="0" oninput="calc()"/>
+        </div>
+      </div>
+      <div class="row row-3">
+        <div class="field">
+          <label>Annual RRSP Contribution <span class="tip" title="Amount you contribute to RRSP each year until retirement. 2024 limit: 18% of earned income up to $31,560.">?</span></label>
+          <input type="text" inputmode="numeric" id="work-rrsp" placeholder="0" oninput="calc()"/>
+          <div class="hint">2024 max: $31,560/yr</div>
+        </div>
+        <div class="field">
+          <label>Annual TFSA Contribution <span class="tip" title="Annual TFSA deposits until retirement. 2024 limit: $7,000.">?</span></label>
+          <input type="text" inputmode="numeric" id="work-tfsa" placeholder="0" oninput="calc()"/>
+          <div class="hint">2024 limit: $7,000/yr</div>
+        </div>
+        <div class="field">
+          <label>Annual Non-Reg Savings <span class="tip" title="Additional savings deposited to your non-registered account each year.">?</span></label>
+          <input type="text" inputmode="numeric" id="work-nreg" placeholder="0" oninput="calc()"/>
+        </div>
+      </div>
+
+      <!-- Feature 3: RRSP refund toggle -->
+      <div id="rrsp-refund-row" style="display:none;">
+        <div class="div"></div>
+        <div class="toggle-row">
+          <div>
+            <span style="font-size:14px;">Reinvest RRSP tax refund</span>
+            <div style="font-size:11px;color:var(--muted);margin-top:2px;">RRSP contributions generate a tax refund each year. Toggle on to automatically reinvest it into your TFSA (up to room) then non-registered.</div>
+          </div>
+          <label class="toggle"><input type="checkbox" id="reinvest-refund" onchange="calc()"><div class="tog-sl"></div></label>
+        </div>
+        <div id="refund-detail" style="margin-top:8px;"></div>
+      </div>
+      <div id="pre-ret-note" style="margin-top:8px;"></div>
+    </div>
+
+    <!-- Feature 2: Retirement contributions -->
+    <div class="div"></div>
+    <div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:10px;">Additional Savings During Retirement</div>
+    <p style="font-size:12px;color:var(--muted);margin-bottom:10px;">If your guaranteed income (CPP + OAS + pension) exceeds your spending, you can direct the surplus into tax-advantaged accounts each year.</p>
+    <div class="row row-2">
+      <div class="field">
+        <label>Annual TFSA Top-Up (while retired) <span class="tip" title="Annual TFSA contributions during retirement, e.g. from pension surplus. Tax-free growth and withdrawals.">?</span></label>
+        <input type="text" inputmode="numeric" id="ret-tfsa-contrib" placeholder="0" oninput="calc()"/>
+        <div class="hint">2024 annual limit: $7,000/yr</div>
+      </div>
+      <div class="field">
+        <label>Annual Non-Reg Savings (while retired) <span class="tip" title="Extra savings added to your non-registered account each year during retirement.">?</span></label>
+        <input type="text" inputmode="numeric" id="ret-nreg-contrib" placeholder="0" oninput="calc()"/>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- 8. DETAILED ANALYSIS -->
 <div class="sec">
   <div class="sec-head" onclick="tog('det')">
     <div class="sec-title">📊 Detailed Analysis</div>
@@ -511,10 +612,15 @@ canvas{border-radius:6px;}
       <p style="margin-bottom:10px;">Toggle on to include your spouse's CPP, OAS, and pension in the household income pool. You can also enable Pension Income Splitting (up to 50%) to reduce your combined tax.</p>
       <p style="margin-bottom:4px;"><strong style="color:var(--accent);">6 · Dependent Adult Child</strong></p>
       <p style="margin-bottom:10px;">Toggle on if you provide ongoing financial support to an adult child. Enter the annual amount you contribute and any RDSP contributions. ODSP/disability benefits are shown for reference — adjust your Annual Support figure to reflect any offset. The total cost is inflation-adjusted throughout your retirement.</p>
+      <p style="margin-bottom:4px;"><strong style="color:var(--accent);">7 · Pre-Retirement Savings</strong></p>
+      <p style="margin-bottom:10px;">If you are still working, toggle on "I am still working" and enter your planned retirement age and annual contributions to RRSP, TFSA, and non-registered accounts. The calculator grows your current portfolio with those contributions (plus investment returns) before the retirement projection begins. If you enter a gross employment income, you can also toggle on <strong style="color:var(--text)">Reinvest RRSP Tax Refund</strong> — the estimated annual refund is automatically redirected into your TFSA first (up to the annual limit), then non-registered.<br><br>
+      The <strong style="color:var(--text)">Additional Savings During Retirement</strong> subsection lets you direct pension or investment income surpluses into your TFSA or non-registered account each year during retirement — useful if your guaranteed income exceeds your spending.</p>
+      <p style="margin-bottom:4px;"><strong style="color:var(--accent);">Secondary Property (Investments section)</strong></p>
+      <p style="margin-bottom:10px;">Toggle on "I own a secondary property" inside the Investments section to model a cottage, rental, or other non-principal-residence property. Enter the current market value, your Adjusted Cost Base (ACB — original purchase price plus improvements), and an annual appreciation rate. At your life expectancy, the calculator estimates the projected value, capital gain (projected value − ACB), applicable inclusion rate (50% for gains up to $250K, 2/3 above — post-2024 Canada rates), the estimated tax owing, and the net value that flows into your estate.</p>
       <p style="color:var(--text);font-weight:600;margin-bottom:6px;">Reading the Results Bar</p>
       <p style="margin-bottom:14px;">The sticky bar at the top shows three numbers at all times: <strong style="color:var(--text)">Money Lasts Until</strong> (age your portfolio reaches zero, or Age X+ if it lasts your full horizon), <strong style="color:var(--text)">Max Safe Go-Go Spend</strong> (maximum sustainable annual spending in active years), and <strong style="color:var(--text)">Est. Estate at Life Exp.</strong> (projected portfolio + home + other assets at life expectancy).</p>
       <p style="color:var(--text);font-weight:600;margin-bottom:6px;">The Detailed Analysis Tabs</p>
-      <p style="margin-bottom:14px;"><strong style="color:var(--text)">Income</strong> — full breakdown with estimated provincial tax. <strong style="color:var(--text)">Projection</strong> — portfolio value chart over time with phase shading and milestones. <strong style="color:var(--text)">CPP Deferral</strong> — lifetime CPP totals at every start age with break-even points. <strong style="color:var(--text)">Scenarios</strong> — survival under four return assumptions, plus adjustable Market Crash and High Inflation stress tests. <strong style="color:var(--text)">Monte Carlo</strong> — runs up to 5,000 simulations with randomised annual returns (Box-Muller normal distribution) to produce a probability-of-success score and fan chart. Adjust the Volatility slider to match your portfolio risk level: ~8% for bonds, ~12% for balanced, ~18% for growth.</p>
+      <p style="margin-bottom:14px;"><strong style="color:var(--text)">Income</strong> — full breakdown with estimated provincial tax. <strong style="color:var(--text)">Projection</strong> — portfolio value chart over time with phase shading and milestones (pre-retirement years show as a growing line before spending begins). <strong style="color:var(--text)">CPP Deferral</strong> — lifetime CPP totals at every start age with break-even points. <strong style="color:var(--text)">Scenarios</strong> — survival under four return assumptions, plus adjustable Market Crash and High Inflation stress tests showing estate impact. <strong style="color:var(--text)">Monte Carlo</strong> — runs up to 5,000 simulations with randomised annual returns (Box-Muller normal distribution) to produce a probability-of-success score and fan chart. Adjust the Volatility slider to match your portfolio risk level: ~8% for bonds, ~12% for balanced, ~18% for growth.</p>
       <p style="color:var(--text);font-weight:600;margin-bottom:6px;">Exporting Your Report</p>
       <p style="margin-bottom:14px;">Click <strong style="color:var(--text)">📄 Export Report (PDF)</strong> at the top to open a print-ready summary in a new tab. Click the blue "Save as PDF" button — on Mac choose "Save as PDF" from the print dialog; on iPhone use the share sheet to "Save to Files".</p>
       <p style="color:var(--text);font-weight:600;margin-bottom:6px;">Important Note</p>
@@ -526,7 +632,7 @@ canvas{border-radius:6px;}
 </div><!-- end .app -->
 
 <script>
-document.getElementById('ver').textContent='Version 5.0 · '+new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
+document.getElementById('ver').textContent='Version 6.0 · '+new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
 
 function tog(id){
   const b=document.getElementById('b-'+id);
@@ -560,6 +666,26 @@ function togDep(){
   const on=document.getElementById('has-dep').checked;
   document.getElementById('dep-fields').style.display=on?'block':'none';
   calc();
+}
+
+function togWork(){
+  const on=document.getElementById('has-work').checked;
+  document.getElementById('work-fields').style.display=on?'block':'none';
+  calc();
+}
+
+function togSecondary(){
+  const on=document.getElementById('has-secondary').checked;
+  document.getElementById('secondary-fields').style.display=on?'block':'none';
+  calc();
+}
+
+// Estimate RRSP tax refund = marginal tax saved on contribution
+function estRRSPRefund(grossIncome,rrspContrib,prov){
+  if(rrspContrib<=0||grossIncome<=0)return 0;
+  const taxBefore=estTax(grossIncome,prov);
+  const taxAfter=estTax(Math.max(0,grossIncome-rrspContrib),prov);
+  return Math.max(0,taxBefore-taxAfter);
 }
 
 function v(id){
@@ -673,29 +799,66 @@ function calc(){
   const totalGuar=myAnnual+spAnnual;
   const clawback=calcClawback(totalGuar,oasMo*12);
 
+  // V6: Pre-retirement savings
+  const hasWork=document.getElementById('has-work')?.checked||false;
+  const retireAge=hasWork?Math.max(parseInt(document.getElementById('retire-age')?.value||65),age+1):age;
+  const workRRSP=hasWork?v('work-rrsp'):0;
+  const workTFSA=hasWork?v('work-tfsa'):0;
+  const workNReg=hasWork?v('work-nreg'):0;
+  const reinvestRefund=hasWork&&(document.getElementById('reinvest-refund')?.checked||false);
+  const workIncome=hasWork?v('work-income'):0;
+
+  // V6: Retirement contributions
+  const retTFSAContrib=v('ret-tfsa-contrib');
+  const retNRegContrib=v('ret-nreg-contrib');
+
+  // V6: Secondary property
+  const hasSecondary=document.getElementById('has-secondary')?.checked||false;
+  const secValue=hasSecondary?v('sec-value'):0;
+  const secACB=hasSecondary?v('sec-acb'):0;
+  const secAppr=hasSecondary?v('sec-appr')/100:0;
+
   let rrsp=v('rrsp'),tfsa=v('tfsa'),nreg=v('nreg');
   const portfolio=rrsp+tfsa+nreg;
   let port=portfolio;
+
+  // Show / hide RRSP refund toggle
+  const refundRow=document.getElementById('rrsp-refund-row');
+  if(refundRow)refundRow.style.display=hasWork&&workRRSP>0?'block':'none';
 
   projData=[];
   let runoutAge=null;
 
   for(let yr=age;yr<=Math.max(lifeExp+5,100);yr++){
-    const myInc=(yr>=cppAge?cppMo:0)*12+(yr>=oasAge?oasMo:0)*12+penMo*12-clawback;
-    const spInc=hasSpouse&&yr<=spLife?(spCPP+spOAS+spPen)*12:0;
-    const totalInc=myInc+spInc;
-    const spend=phaseSpend(yr,age,inf);
-    const depCost=hasDep?depAnnualCost*Math.pow(1+inf,yr-age):0;
-    const totalSpend=spend+depCost;
-    const gap=Math.max(0,totalSpend-totalInc);
-    const rrifMin=rrsp>0?rrsp*rrifRate(yr):0;
-    const draw=Math.max(gap,rrifMin);
-    const growth=port*ret;
-    port=port+growth-draw;
-    if(port<=0&&!runoutAge){runoutAge=yr;port=0;}
-    projData.push({age:yr,port:Math.max(0,port),spend:totalSpend,income:totalInc,draw,rrsp:Math.max(0,rrsp)});
-    const rrifDraw=Math.min(Math.max(gap*(rrsp/(port+draw+0.01)),rrifMin),rrsp);
-    rrsp=Math.max(0,rrsp*(1+ret)-rrifDraw);
+    const isPreRet=hasWork&&yr<retireAge;
+
+    if(isPreRet){
+      // Pre-retirement: grow with contributions, no retirement spending drawn
+      const refund=reinvestRefund&&workRRSP>0?estRRSPRefund(workIncome,workRRSP,prov):0;
+      rrsp=rrsp*(1+ret)+workRRSP;
+      tfsa=tfsa*(1+ret)+workTFSA+(reinvestRefund?Math.min(refund,7000):0);
+      nreg=nreg*(1+ret)+workNReg+(reinvestRefund?Math.max(0,refund-7000):0);
+      port=rrsp+tfsa+nreg;
+      projData.push({age:yr,port:Math.max(0,port),spend:0,income:0,draw:0,rrsp:Math.max(0,rrsp),phase:'pre'});
+    } else {
+      // Retirement phase
+      const myInc=(yr>=cppAge?cppMo:0)*12+(yr>=oasAge?oasMo:0)*12+penMo*12-clawback;
+      const spInc=hasSpouse&&yr<=spLife?(spCPP+spOAS+spPen)*12:0;
+      const totalInc=myInc+spInc;
+      const spend=phaseSpend(yr,age,inf);
+      const depCost=hasDep?depAnnualCost*Math.pow(1+inf,yr-age):0;
+      const totalSpend=spend+depCost;
+      const gap=Math.max(0,totalSpend-totalInc);
+      const rrifMin=rrsp>0?rrsp*rrifRate(yr):0;
+      const draw=Math.max(gap,rrifMin);
+      const growth=port*ret;
+      // V6: add retirement contributions each year
+      port=port+growth-draw+retTFSAContrib+retNRegContrib;
+      if(port<=0&&!runoutAge){runoutAge=yr;port=0;}
+      projData.push({age:yr,port:Math.max(0,port),spend:totalSpend,income:totalInc,draw,rrsp:Math.max(0,rrsp)});
+      const rrifDraw=Math.min(Math.max(gap*(rrsp/(port+draw+0.01)),rrifMin),rrsp);
+      rrsp=Math.max(0,rrsp*(1+ret)-rrifDraw);
+    }
   }
 
   const estateData=projData.find(d=>d.age===lifeExp);
@@ -711,9 +874,61 @@ function calc(){
     homeNote.textContent=`Projected value at age ${lifeExp}: ${fmtFull(projectedHome)} (${v('home-appr')}%/yr over ${yearsToLifeExp} yrs)`;
   } else if(homeNote){homeNote.textContent='';}
 
+  // V6: Secondary property net value (capital gains tax deducted)
+  let secNetValue=0,secCapGainsTax=0,projectedSecValue=0;
+  if(hasSecondary&&secValue>0){
+    projectedSecValue=Math.round(secValue*Math.pow(1+secAppr,yearsToLifeExp)/1000)*1000;
+    const capitalGain=Math.max(0,projectedSecValue-secACB);
+    // Canada 2024: 50% inclusion for first $250K of capital gains, 2/3 above
+    const inclusionRate=capitalGain>250000?2/3:0.5;
+    const taxableGain=capitalGain*inclusionRate;
+    secCapGainsTax=estTax(taxableGain,prov);
+    secNetValue=Math.max(0,projectedSecValue-secCapGainsTax);
+    const secNote=document.getElementById('sec-tax-note');
+    if(secNote){
+      secNote.innerHTML=`<div class="alert info" style="margin-top:8px;font-size:11px;">📈 Projected value at age ${lifeExp}: <strong>${fmtFull(projectedSecValue)}</strong> · Capital gain: <strong>${fmtFull(Math.max(0,projectedSecValue-secACB))}</strong> · Est. tax (${Math.round(inclusionRate*100)}% inclusion): <strong style="color:var(--danger);">${fmtFull(secCapGainsTax)}</strong> · Net to estate: <strong style="color:var(--accent);">${fmtFull(secNetValue)}</strong></div>`;
+    }
+  } else {
+    const secNote=document.getElementById('sec-tax-note');
+    if(secNote)secNote.innerHTML='';
+  }
+
+  // V6: Pre-retirement portfolio note
+  if(hasWork&&retireAge>age){
+    const preRetEntry=projData.find(d=>d.age===retireAge-1)||projData.find(d=>d.phase==='pre'&&d.age===retireAge);
+    const retPort=preRetEntry?preRetEntry.port:0;
+    const totalAnnualContrib=workRRSP+workTFSA+workNReg;
+    const refundPerYear=reinvestRefund&&workRRSP>0?estRRSPRefund(workIncome,workRRSP,prov):0;
+    const totalWithRefund=totalAnnualContrib+refundPerYear;
+    const workYears=retireAge-age;
+    const preRetNote=document.getElementById('pre-ret-note');
+    if(preRetNote){
+      preRetNote.innerHTML=`<div class="alert good" style="margin-top:8px;">💼 At retirement (age <strong>${retireAge}</strong>, in <strong>${workYears} yrs</strong>), projected portfolio: <strong>${fmtFull(retPort)}</strong> — grown from ${fmtFull(portfolio)} with ${fmtFull(totalAnnualContrib)}/yr in contributions${refundPerYear>0?` + ${fmtFull(refundPerYear)}/yr refund reinvested`:''}, compounding at ${v('ret')}%.</div>`;
+    }
+    // Show refund detail
+    const refundDetail=document.getElementById('refund-detail');
+    if(refundDetail&&reinvestRefund&&workRRSP>0){
+      const refundAmt=estRRSPRefund(workIncome,workRRSP,prov);
+      const marginalRate=workIncome>0?(refundAmt/workRRSP*100).toFixed(0):0;
+      refundDetail.innerHTML=`<div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:10px;font-size:12px;color:var(--muted);">Est. annual refund on ${fmtFull(workRRSP)} RRSP contribution: <strong style="color:var(--accent);">${fmtFull(refundAmt)}</strong> (~${marginalRate}% marginal rate). Directed to TFSA first, then non-registered.</div>`;
+    } else if(refundDetail){refundDetail.innerHTML='';}
+  } else {
+    const preRetNote=document.getElementById('pre-ret-note');
+    if(preRetNote)preRetNote.innerHTML='';
+  }
+
+  // V6: Retirement contribution note
+  if(retTFSAContrib>0||retNRegContrib>0){
+    const totalRetContrib=(retTFSAContrib+retNRegContrib)*(lifeExp-age);
+  }
+
   const estatePortfolio=runoutAge&&runoutAge<=lifeExp?0:(estateData?.port||0);
-  const estEstate=estatePortfolio+projectedHome+v('other');
-  const safeDraw=totalGuar+(portfolio>0?portfolio*0.035:0);
+  const estEstate=estatePortfolio+projectedHome+v('other')+secNetValue;
+  // V6: use post-pre-retirement portfolio for safe draw estimate
+  const portfolioAtRetirement=hasWork&&retireAge>age
+    ?(projData.find(d=>d.age===retireAge-1)?.port||port)
+    :portfolio;
+  const safeDraw=totalGuar+(portfolioAtRetirement>0?portfolioAtRetirement*0.035:0);
 
   const runEl=document.getElementById('r-runway');
   if(runoutAge&&runoutAge<=lifeExp){
@@ -734,7 +949,7 @@ function calc(){
   document.getElementById('rl-end').textContent='Age '+lifeExp;
   document.getElementById('rl-mid').textContent=runoutAge&&runoutAge<=lifeExp?'⚠ Runs out age '+runoutAge:'';
 
-  renderAlerts(clawback,oasMo,portfolio,myAnnual,spAnnual,runoutAge,lifeExp,age,estEstate,safeDraw);
+  renderAlerts(clawback,oasMo,portfolioAtRetirement,myAnnual,spAnnual,runoutAge,lifeExp,age,estEstate,safeDraw);
   renderSpendInsights(safeDraw,age,lifeExp);
 
   renderIncomeTable(cppMo,oasMo,penMo,spCPP,spOAS,spPen,clawback,prov,myAnnual+spAnnual);
@@ -886,14 +1101,19 @@ function renderCPP(){
 }
 
 function renderMC(){
-  const port=v('rrsp')+v('tfsa')+v('nreg');
-  const lifeExp=v('life');
   const age=v('age');
+  const lifeExp=v('life');
   const inf=v('inf')/100;
-  const years=lifeExp-age;
   const annualSpend=v('sp-go');
   const guarInc=(v('cpp')+v('oas')+v('pen'))*12;
   const annualDraw=Math.max(0,annualSpend-guarInc);
+  // V6: use post-pre-retirement portfolio for scenario bars
+  const hasWork=document.getElementById('has-work')?.checked||false;
+  const retireAge=hasWork?Math.max(parseInt(document.getElementById('retire-age')?.value||65),age+1):age;
+  const projStartAge=hasWork&&retireAge>age?retireAge:age;
+  const preRetLast=hasWork&&retireAge>age?projData.find(d=>d.age===retireAge-1):null;
+  const port=preRetLast?preRetLast.port:(v('rrsp')+v('tfsa')+v('nreg'));
+  const years=lifeExp-projStartAge;
   const scenarios=[
     {label:'Bear (2%)',ret:0.02,col:'var(--danger)'},
     {label:'Caution (4%)',ret:0.04,col:'var(--accent2)'},
@@ -922,14 +1142,101 @@ function renderMC(){
   runInflationScenario();
 }
 
-function _scenarioBase(){
-  return {
-    port:v('rrsp')+v('tfsa')+v('nreg'),
-    lifeExp:v('life'),age:v('age'),
-    inf:v('inf')/100,ret:v('ret')/100,
-    annualDraw:Math.max(0,v('sp-go')-(v('cpp')+v('oas')+v('pen'))*12),
-    years:v('life')-v('age'),
-  };
+function getBaseEstate(){
+  const lifeExp=v('life'),age=v('age');
+  const d=projData.find(x=>x.age===lifeExp);
+  const homeNow=v('home');
+  const projectedHome=homeNow>0?Math.round(homeNow*Math.pow(1+v('home-appr')/100,lifeExp-age)/1000)*1000:0;
+  // V6: Secondary property net of capital gains tax
+  const hasSecondary=document.getElementById('has-secondary')?.checked||false;
+  let secNetValue=0;
+  if(hasSecondary){
+    const sv=v('sec-value'),sacb=v('sec-acb'),sapr=v('sec-appr')/100;
+    const prov=document.getElementById('prov').value;
+    const projSec=sv>0?Math.round(sv*Math.pow(1+sapr,lifeExp-age)/1000)*1000:0;
+    const capGain=Math.max(0,projSec-sacb);
+    const inclRate=capGain>250000?2/3:0.5;
+    secNetValue=Math.max(0,projSec-estTax(capGain*inclRate,prov));
+  }
+  return (d?Math.max(0,d.port):0)+projectedHome+v('other')+secNetValue;
+}
+
+function runScenarioProjection(overrides){
+  const age=v('age'),lifeExp=v('life');
+  const inf=overrides.inflationRate!==undefined?overrides.inflationRate:v('inf')/100;
+  const baseRet=v('ret')/100;
+  const hasSpouse=document.getElementById('has-sp').checked;
+  const hasDep=document.getElementById('has-dep').checked;
+  const depAnnualCost=hasDep?(v('dep-support')+v('dep-rdsp')):0;
+  const cppAge=parseInt(document.getElementById('cpp-age').value);
+  const oasAge=parseInt(document.getElementById('oas-age').value);
+  const cppMo=adjCPP(v('cpp'),cppAge),oasMo=adjOAS(v('oas'),oasAge),penMo=v('pen');
+  const spCPP=hasSpouse?v('sp-cpp'):0,spOAS=hasSpouse?v('sp-oas'):0,spPen=hasSpouse?v('sp-pen'):0;
+  const spLife=hasSpouse?v('sp-life'):0;
+  const clawback=calcClawback((cppMo+oasMo+penMo+spCPP+spOAS+spPen)*12,oasMo*12);
+
+  // V6: Start from post-pre-retirement portfolio if applicable
+  const hasWork=document.getElementById('has-work')?.checked||false;
+  const retireAge=hasWork?Math.max(parseInt(document.getElementById('retire-age')?.value||65),age+1):age;
+  const projStartAge=hasWork&&retireAge>age?retireAge:age;
+
+  // Pull starting portfolio from projData — use the LAST pre-retirement entry (retireAge-1)
+  // NOT the first retirement entry (which already has one year of drawdown applied)
+  let port,rrsp;
+  if(hasWork&&retireAge>age){
+    const preRetLast=projData.find(d=>d.age===retireAge-1);
+    port=preRetLast?preRetLast.port:(v('rrsp')+v('tfsa')+v('nreg'));
+    rrsp=preRetLast&&preRetLast.rrsp!==undefined?preRetLast.rrsp:v('rrsp');
+  } else {
+    rrsp=v('rrsp');
+    port=rrsp+v('tfsa')+v('nreg');
+  }
+
+  // V6: Retirement contributions
+  const retTFSAContrib=v('ret-tfsa-contrib');
+  const retNRegContrib=v('ret-nreg-contrib');
+
+  // V6: Secondary property
+  const hasSecondary=document.getElementById('has-secondary')?.checked||false;
+  const secValue=hasSecondary?v('sec-value'):0;
+  const secACB=hasSecondary?v('sec-acb'):0;
+  const secAppr=hasSecondary?v('sec-appr')/100:0;
+
+  let runoutAge=null,finalPort=0;
+  for(let yr=projStartAge;yr<=lifeExp;yr++){
+    const relYr=yr-projStartAge; // 0-based year from retirement start
+    const ret=overrides.getReturn(relYr);
+    const myInc=(yr>=cppAge?cppMo:0)*12+(yr>=oasAge?oasMo:0)*12+penMo*12-clawback;
+    const spInc=hasSpouse&&yr<=spLife?(spCPP+spOAS+spPen)*12:0;
+    const spend=phaseSpend(yr,age,inf);
+    const depCost=hasDep?depAnnualCost*Math.pow(1+inf,yr-age):0;
+    const gap=Math.max(0,spend+depCost-myInc-spInc);
+    const rrifMin=rrsp>0?rrsp*rrifRate(yr):0;
+    const draw=Math.max(gap,rrifMin);
+    port=port+port*ret-draw+retTFSAContrib+retNRegContrib;
+    if(port<=0&&!runoutAge){runoutAge=yr;port=0;}
+    if(yr===lifeExp)finalPort=Math.max(0,port);
+    const rrifDraw=Math.min(Math.max(gap*(rrsp/(port+draw+0.01)),rrifMin),rrsp);
+    rrsp=Math.max(0,rrsp*(1+ret)-rrifDraw);
+  }
+  const homeNow=v('home');
+  const projectedHome=homeNow>0?Math.round(homeNow*Math.pow(1+v('home-appr')/100,lifeExp-age)/1000)*1000:0;
+  // V6: Secondary property net value
+  let secNetValue=0;
+  if(hasSecondary&&secValue>0){
+    const prov=document.getElementById('prov').value;
+    const projSec=Math.round(secValue*Math.pow(1+secAppr,lifeExp-age)/1000)*1000;
+    const capGain=Math.max(0,projSec-secACB);
+    const inclRate=capGain>250000?2/3:0.5;
+    secNetValue=Math.max(0,projSec-estTax(capGain*inclRate,prov));
+  }
+  return {runoutAge,estEstate:finalPort+projectedHome+v('other')+secNetValue};
+}
+
+function fmtImpact(impact){
+  const sign=impact<0?'−':'+';
+  const col=impact<0?'var(--danger)':'var(--accent)';
+  return `<span style="color:${col};font-weight:600;">${sign}${fmt(Math.abs(impact))}</span>`;
 }
 
 function runCrashScenario(){
@@ -937,35 +1244,48 @@ function runCrashScenario(){
   if(!el)return;
   const crashPct=parseInt(document.getElementById('sc-crash-pct')?.value||30)/100;
   const crashYr=parseInt(document.getElementById('sc-crash-yr')?.value||1);
-  const {port,lifeExp,age,inf,ret,annualDraw,years}=_scenarioBase();
-  let p=port,dep=null;
-  for(let y=0;y<years;y++){
-    const yr_ret=(y+1===crashYr)?-crashPct:ret;
-    p=p*(1+yr_ret)-annualDraw*Math.pow(1+inf,y);
-    if(p<0&&!dep){dep=age+y;p=0;}
-  }
+  const baseRet=v('ret')/100;
+  const lifeExp=v('life');
+  const {runoutAge,estEstate}=runScenarioProjection({
+    getReturn:(yr)=>yr===crashYr-1?-crashPct:baseRet,
+    inflationRate:v('inf')/100
+  });
+  const baseEstate=getBaseEstate();
+  const impact=estEstate-baseEstate;
   const pct=Math.round(crashPct*100);
-  const msg=dep
-    ?`A ${pct}% crash in Year ${crashYr} depletes your portfolio at age ${dep} — ${lifeExp-dep} years before your life expectancy.`
-    :`Even with a ${pct}% crash in Year ${crashYr}, your portfolio lasts to age ${lifeExp}. ✓`;
-  el.innerHTML=`<div class="alert ${dep?'danger':'good'}" style="font-size:12px;">🔍 ${msg}</div>`;
+  const survivalLine=runoutAge
+    ?`<strong style="color:var(--danger);">Portfolio depleted at age ${runoutAge}</strong> — ${lifeExp-runoutAge} yrs before life expectancy.`
+    :`Portfolio survives to age ${lifeExp}. ✓`;
+  el.innerHTML=`<div class="alert ${runoutAge?'danger':impact<-100000?'warn':'good'}" style="font-size:12px;">
+    📊 ${survivalLine}<br/>
+    <span style="color:var(--muted);">Est. estate at age ${lifeExp}:</span> <strong>${fmt(estEstate)}</strong>
+    &nbsp;·&nbsp; <span style="color:var(--muted);">Base:</span> ${fmt(baseEstate)}
+    &nbsp;·&nbsp; Impact: ${fmtImpact(impact)}
+  </div>`;
 }
 
 function runInflationScenario(){
   const el=document.getElementById('sc-inf-result');
   if(!el)return;
   const infRate=parseFloat(document.getElementById('sc-inf-rate')?.value||5)/100;
-  const {port,lifeExp,age,ret,annualDraw,years}=_scenarioBase();
-  let p=port,dep=null;
-  for(let y=0;y<years;y++){
-    p=p*(1+ret)-annualDraw*Math.pow(1+infRate,y);
-    if(p<0&&!dep){dep=age+y;p=0;}
-  }
+  const baseRet=v('ret')/100;
+  const lifeExp=v('life');
+  const {runoutAge,estEstate}=runScenarioProjection({
+    getReturn:()=>baseRet,
+    inflationRate:infRate
+  });
+  const baseEstate=getBaseEstate();
+  const impact=estEstate-baseEstate;
   const pct=(infRate*100).toFixed(1);
-  const msg=dep
-    ?`At ${pct}% sustained inflation, your portfolio depletes at age ${dep} — ${lifeExp-dep} years before your life expectancy.`
-    :`At ${pct}% sustained inflation, your portfolio still lasts to age ${lifeExp}. ✓`;
-  el.innerHTML=`<div class="alert ${dep?'danger':'good'}" style="font-size:12px;">🔍 ${msg}</div>`;
+  const survivalLine=runoutAge
+    ?`<strong style="color:var(--danger);">Portfolio depleted at age ${runoutAge}</strong> — ${lifeExp-runoutAge} yrs before life expectancy.`
+    :`Portfolio survives to age ${lifeExp}. ✓`;
+  el.innerHTML=`<div class="alert ${runoutAge?'danger':impact<-100000?'warn':'good'}" style="font-size:12px;">
+    📊 ${survivalLine}<br/>
+    <span style="color:var(--muted);">Est. estate at age ${lifeExp}:</span> <strong>${fmt(estEstate)}</strong>
+    &nbsp;·&nbsp; <span style="color:var(--muted);">Base:</span> ${fmt(baseEstate)}
+    &nbsp;·&nbsp; Impact: ${fmtImpact(impact)}
+  </div>`;
 }
 
 function renderSpendInsights(safeDraw,age,lifeExp){
@@ -1042,9 +1362,24 @@ function printReport(){
   const mcProbEl=document.getElementById('mc-prob-display');
   const mcProbText=mcProbEl&&mcProbEl.querySelector('div')?mcProbEl.querySelector('div').textContent:'—';
   const mcPct=mcProbEl?mcProbEl.innerHTML:'';
+  // V6: Pre-retirement data
+  const hasWork=document.getElementById('has-work')?.checked||false;
+  const retireAgeVal=hasWork?parseInt(document.getElementById('retire-age')?.value||65):null;
+  const workRRSPVal=hasWork?v('work-rrsp'):0;
+  const workTFSAVal=hasWork?v('work-tfsa'):0;
+  const workNRegVal=hasWork?v('work-nreg'):0;
+  const reinvestRefundVal=hasWork&&(document.getElementById('reinvest-refund')?.checked||false);
+  const workIncomeVal=hasWork?v('work-income'):0;
+  const retTFSA=v('ret-tfsa-contrib'),retNReg=v('ret-nreg-contrib');
+  // V6: Secondary property
+  const hasSecondaryVal=document.getElementById('has-secondary')?.checked||false;
+  const secValueVal=hasSecondaryVal?v('sec-value'):0;
+  const secACBVal=hasSecondaryVal?v('sec-acb'):0;
+  const secApprVal=hasSecondaryVal?v('sec-appr'):3;
+  const secNote=hasSecondaryVal?document.getElementById('sec-tax-note')?.innerHTML||'':'';
   const now=new Date().toLocaleDateString('en-CA',{year:'numeric',month:'long',day:'numeric'});
   const html=`<!DOCTYPE html><html><head><meta charset="UTF-8"/><title>Retirement Plan — ${now}</title><style>*{box-sizing:border-box;margin:0;padding:0;}body{font-family:'Segoe UI',Arial,sans-serif;font-size:13px;color:#1a1a1a;background:#fff;padding:24px 30px 40px;}h1{font-size:22px;font-weight:700;color:#1a1a2e;margin-bottom:2px;}h2{font-size:14px;font-weight:700;color:#1a1a2e;margin:16px 0 8px;border-bottom:1px solid #e0e0e0;padding-bottom:4px;}.sub{font-size:11px;color:#888;margin-bottom:16px;}.results-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px;}.result-box{background:#f4f6fa;border-radius:8px;padding:12px;text-align:center;}.result-val{font-size:22px;font-weight:700;}.result-val.green{color:#2a7a3b;}.result-val.blue{color:#1a5fa8;}.result-val.gold{color:#b8860b;}.input-grid{display:grid;grid-template-columns:1fr 1fr;gap:4px 24px;margin-bottom:8px;}.input-row{display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid #f0f0f0;font-size:12px;}.input-row span:first-child{color:#555;}.input-row span:last-child{font-weight:600;}table{width:100%;border-collapse:collapse;font-size:12px;margin-bottom:8px;}th{text-align:left;padding:5px 8px;font-size:10px;color:#888;text-transform:uppercase;border-bottom:1px solid #ddd;}td{padding:5px 8px;border-bottom:1px solid #f0f0f0;}td.pos{color:#2a7a3b;}td.neg{color:#c0392b;}td.tot{font-weight:700;}.chart-img{width:100%;border-radius:6px;margin:8px 0;}.disc{font-size:10px;color:#aaa;margin-top:20px;border-top:1px solid #eee;padding-top:10px;line-height:1.6;}.phase-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px;}.phase-box{background:#f9f9f9;border-radius:6px;padding:10px;text-align:center;}.phase-label{font-size:10px;font-weight:700;text-transform:uppercase;margin-bottom:2px;}.phase-val{font-size:15px;font-weight:700;}@media print{body{padding:0 16px;}.no-print{display:none;}}</style></head><body>
-  <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px;"><div><h1>🍁 Canadian Retirement Plan${userName?' — '+userName:''}</h1><div class="sub">Generated ${now} · Version 5.0 · Province: ${prov}</div><div class="sub" style="margin-top:2px;">Created by Gopal Rao Pulapaka</div></div><button class="no-print" onclick="window.print()" style="background:#1a5fa8;color:#fff;border:none;border-radius:6px;padding:8px 18px;font-size:13px;cursor:pointer;">🖨 Save as PDF</button></div>
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px;"><div><h1>🍁 Canadian Retirement Plan${userName?' — '+userName:''}</h1><div class="sub">Generated ${now} · Version 6.0 · Province: ${prov}</div><div class="sub" style="margin-top:2px;">Created by Gopal Rao Pulapaka</div></div><button class="no-print" onclick="window.print()" style="background:#1a5fa8;color:#fff;border:none;border-radius:6px;padding:8px 18px;font-size:13px;cursor:pointer;">🖨 Save as PDF</button></div>
   <h2>Key Results</h2><div class="results-row"><div class="result-box"><div class="result-val ${document.getElementById('r-runway').className.includes('red')?'red':'green'}">${runway}</div><div style="font-size:10px;color:#888;margin-top:3px;">Money lasts until</div></div><div class="result-box"><div class="result-val blue">${safeDraw}</div><div style="font-size:10px;color:#888;margin-top:3px;">Max safe Go-Go spend</div></div><div class="result-box"><div class="result-val gold">${estate}</div><div style="font-size:10px;color:#888;margin-top:3px;">Est. estate at life exp.</div></div></div>
   ${mcPct?`<h2>Monte Carlo Probability of Success</h2><div style="text-align:center;padding:14px;background:#f4f6fa;border-radius:8px;margin-bottom:16px;">${mcPct.replace(/var\(--accent\)/g,'#2a7a3b').replace(/var\(--accent2\)/g,'#d4700a').replace(/var\(--danger\)/g,'#c0392b').replace(/var\(--muted\)/g,'#888').replace(/var\(--text\)/g,'#1a1a2e')}</div>`:''}
   <h2>Your Profile</h2><div class="input-grid"><div class="input-row"><span>Current Age</span><span>${age}</span></div><div class="input-row"><span>Life Expectancy</span><span>Age ${lifeExp}</span></div><div class="input-row"><span>Inflation Rate</span><span>${inf}%</span></div><div class="input-row"><span>Investment Return</span><span>${ret}%</span></div><div class="input-row"><span>Est. Estate at Life Exp.</span><span>${estate}</span></div><div class="input-row"><span>Province</span><span>${prov}</span></div></div>
@@ -1054,6 +1389,9 @@ function printReport(){
   ${depSection}
   <h2>Portfolio Projection</h2><img class="chart-img" src="${chartImg}" alt="Portfolio Projection Chart"/>${miles?`<div style="margin-top:8px;">${miles}</div>`:''}
   <h2>Scenario Analysis</h2>${scHTML}
+  ${hasWork?`<h2>Pre-Retirement Savings</h2><div class="input-grid"><div class="input-row"><span>Planned Retirement Age</span><span>${retireAgeVal}</span></div>${workRRSPVal>0?`<div class="input-row"><span>Annual RRSP Contribution</span><span>${fmtFull(workRRSPVal)}/yr</span></div>`:''}${workTFSAVal>0?`<div class="input-row"><span>Annual TFSA Contribution</span><span>${fmtFull(workTFSAVal)}/yr</span></div>`:''}${workNRegVal>0?`<div class="input-row"><span>Annual Non-Reg Savings</span><span>${fmtFull(workNRegVal)}/yr</span></div>`:''}${reinvestRefundVal?`<div class="input-row"><span>RRSP Refund</span><span>Reinvested</span></div>`:''}</div>`:''}
+  ${retTFSA>0||retNReg>0?`<h2>Retirement Savings Contributions</h2><div class="input-grid">${retTFSA>0?`<div class="input-row"><span>Annual TFSA Top-Up (retired)</span><span>${fmtFull(retTFSA)}/yr</span></div>`:''}${retNReg>0?`<div class="input-row"><span>Annual Non-Reg (retired)</span><span>${fmtFull(retNReg)}/yr</span></div>`:''}</div>`:''}
+  ${hasSecondaryVal&&secValueVal>0?`<h2>Secondary Property</h2><div class="input-grid"><div class="input-row"><span>Current Market Value</span><span>${fmtFull(secValueVal)}</span></div><div class="input-row"><span>Adjusted Cost Base (ACB)</span><span>${fmtFull(secACBVal)}</span></div><div class="input-row"><span>Appreciation Rate</span><span>${secApprVal}%/yr</span></div></div>${secNote?`<div style="font-size:11px;color:#555;background:#f0f4ff;border-radius:6px;padding:10px;margin-bottom:12px;">${secNote.replace(/var\(--accent\)/g,'#2a7a3b').replace(/var\(--danger\)/g,'#c0392b').replace(/var\(--muted\)/g,'#888').replace(/var\(--text\)/g,'#1a1a2e').replace(/<div class="alert info"[^>]*>/,'').replace(/<\/div>$\s*/,'')}</div>`:''}`:''}
   ${hasSpouse?`<h2>Spouse / Partner</h2><div class="input-grid"><div class="input-row"><span>Spouse Age</span><span>${v('sp-age')}</span></div><div class="input-row"><span>Spouse Life Exp.</span><span>Age ${v('sp-life')}</span></div><div class="input-row"><span>Spouse CPP</span><span>${fmtFull(v('sp-cpp'))}/mo</span></div><div class="input-row"><span>Spouse OAS</span><span>${fmtFull(v('sp-oas'))}/mo</span></div>${v('sp-pen')>0?`<div class="input-row"><span>Spouse Pension</span><span>${fmtFull(v('sp-pen'))}/mo</span></div>`:''}</div>`:''}
   <div class="disc">This report is generated by the Canadian Retirement Calculator for personal planning purposes only. It does not constitute financial, tax, or legal advice. Projections are estimates based on the assumptions entered and may not reflect actual future outcomes. Consult a licensed financial advisor or tax professional for personalized guidance. CPP, OAS, and tax figures are based on 2024 rates and are subject to change.</div>
   </body></html>`;
@@ -1095,9 +1433,29 @@ function runMonteCarlo(){
   const ret=v('ret')/100;
   const hasDep=document.getElementById('has-dep').checked;
   const hasSpouse=document.getElementById('has-sp').checked;
-  const rrspInit=v('rrsp'),tfsaInit=v('tfsa'),nregInit=v('nreg');
-  const portfolio=rrspInit+tfsaInit+nregInit;
-  const years=lifeExp-age;
+
+  // V6: Start from post-pre-retirement portfolio if applicable
+  const hasWork=document.getElementById('has-work')?.checked||false;
+  const retireAge=hasWork?Math.max(parseInt(document.getElementById('retire-age')?.value||65),age+1):age;
+  const projStartAge=hasWork&&retireAge>age?retireAge:age;
+  // Use LAST pre-retirement entry (retireAge-1) — not first retirement entry which has drawdown applied
+  let rrspInit,portfolioInit;
+  if(hasWork&&retireAge>age){
+    const preRetLast=projData.find(d=>d.age===retireAge-1);
+    portfolioInit=preRetLast?preRetLast.port:(v('rrsp')+v('tfsa')+v('nreg'));
+    rrspInit=preRetLast&&preRetLast.rrsp!==undefined?preRetLast.rrsp:v('rrsp');
+  } else {
+    rrspInit=v('rrsp');
+    portfolioInit=rrspInit+v('tfsa')+v('nreg');
+  }
+
+  const portfolio=portfolioInit;
+  const years=lifeExp-projStartAge;
+
+  // V6: Retirement contributions
+  const retTFSAContrib=v('ret-tfsa-contrib');
+  const retNRegContrib=v('ret-nreg-contrib');
+
   if(years<=0||portfolio<=0){
     probEl.innerHTML='<div style="color:var(--muted);font-size:13px;">Enter your age, life expectancy, and portfolio values to run the simulation.</div>';
     return;
@@ -1114,7 +1472,6 @@ function runMonteCarlo(){
   const spPen=hasSpouse?v('sp-pen'):0;
   const spLife=hasSpouse?v('sp-life'):0;
   const clawback=calcClawback((cppMo+oasMo+penMo+spCPP+spOAS+spPen)*12,oasMo*12);
-  const rrspFraction=portfolio>0?rrspInit/portfolio:0;
 
   let successes=0;
   const yearlyVals=Array.from({length:years+1},()=>[]);
@@ -1124,17 +1481,18 @@ function runMonteCarlo(){
     let rrsp=rrspInit;
     yearlyVals[0].push(port);
     for(let yr=0;yr<years;yr++){
-      const curAge=age+yr;
+      const curAge=projStartAge+yr;
       const simRet=Math.max(-0.60,Math.min(0.80,normalRandom(ret,vol)));
       const myInc=(curAge>=cppAge?cppMo:0)*12+(curAge>=oasAge?oasMo:0)*12+penMo*12-clawback;
       const spInc=hasSpouse&&curAge<=spLife?(spCPP+spOAS+spPen)*12:0;
       const totalInc=myInc+spInc;
       const spend=phaseSpend(curAge,age,inf);
-      const depCost=hasDep?depAnnualCost*Math.pow(1+inf,yr):0;
+      const depCost=hasDep?depAnnualCost*Math.pow(1+inf,curAge-age):0;
       const gap=Math.max(0,spend+depCost-totalInc);
       const rrifMin=rrsp>0?rrsp*rrifRate(curAge):0;
       const draw=Math.max(gap,rrifMin);
-      port=Math.max(0,port*(1+simRet)-draw);
+      // V6: include retirement contributions
+      port=Math.max(0,port*(1+simRet)-draw+retTFSAContrib+retNRegContrib);
       const rrifDraw=Math.min(Math.max(gap*(rrsp/(port+draw+0.01)),rrifMin),rrsp);
       rrsp=Math.max(0,rrsp*(1+simRet)-rrifDraw);
       yearlyVals[yr+1].push(port);
@@ -1159,7 +1517,7 @@ function runMonteCarlo(){
     <div style="font-size:13px;color:${color};margin-top:5px;font-weight:600;">${grade} — ${successes.toLocaleString()} of ${N.toLocaleString()} simulations</div>
     <div style="font-size:12px;color:var(--muted);margin-top:3px;">portfolio survives to age ${lifeExp}</div>`;
 
-  drawMCChart(yearlyVals,age,lifeExp,pct);
+  drawMCChart(yearlyVals,projStartAge,lifeExp,pct);
 
   const keyAges=[75,85,lifeExp].filter(a=>a>age&&a<=lifeExp);
   let tbl=`<table class="data-table"><thead><tr><th>Age</th><th style="color:var(--danger);">P10 · Pessimistic</th><th style="color:var(--blue);">P50 · Median</th><th style="color:var(--accent);">P90 · Optimistic</th></tr></thead><tbody>`;
@@ -1242,7 +1600,8 @@ function drawMCChart(yearlyVals,age,lifeExp,pct){
 }
 
 // ── INIT ──
-['cpp','oas','pen','rrsp','tfsa','nreg','home','other','sp-go','sp-sl','sp-no','ltc','sp-cpp','sp-oas','sp-pen','dep-support','dep-rdsp','dep-odsp'].forEach(setupCommaInput);
+['cpp','oas','pen','rrsp','tfsa','nreg','home','other','sp-go','sp-sl','sp-no','ltc','sp-cpp','sp-oas','sp-pen','dep-support','dep-rdsp','dep-odsp',
+ 'work-income','work-rrsp','work-tfsa','work-nreg','ret-tfsa-contrib','ret-nreg-contrib','sec-value','sec-acb'].forEach(setupCommaInput);
 calc();
 </script>
 </body>
